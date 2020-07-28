@@ -23,6 +23,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.network.NetworkRequest;
+import com.example.ddschedule.util.HeaderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             if (msg.what==1){
                 // mlist=(ArrayList<NewsData.DataBean>) newsData.getData();
                 mList= (List<ScheduleModel>) msg.obj;
-                mScheduleViewAdapter.setData(mList);
+                mScheduleViewAdapter.setData(HeaderUtil.addHeader(mList));
             }
         }
     };
@@ -78,7 +79,7 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             RecyclerView recyclerView = (RecyclerView) view;
             initData();
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            mScheduleViewAdapter = new ScheduleViewAdapter(context, mList);
+            mScheduleViewAdapter = new ScheduleViewAdapter(context, HeaderUtil.addHeader(mList));
             recyclerView.setAdapter(mScheduleViewAdapter);
 
             // 设置点击事件

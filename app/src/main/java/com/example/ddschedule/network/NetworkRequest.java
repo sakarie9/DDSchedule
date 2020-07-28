@@ -3,7 +3,6 @@ package com.example.ddschedule.network;
 import android.util.Log;
 
 import com.example.ddschedule.model.ScheduleModel;
-import com.example.ddschedule.model.Schedules;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,5 +68,21 @@ public class NetworkRequest {
     public interface NetDataCallback {
         void callback(List<ScheduleModel> data);
         void err(int code,String s);
+    }
+
+    public class Schedules {
+        private List<ScheduleModel> schedules;
+
+        public Schedules(List<ScheduleModel> schedules) {
+            this.schedules = schedules;
+        }
+
+        public List<ScheduleModel> getSchedules() {
+            return schedules;
+        }
+
+        public void setSchedules(List<ScheduleModel> schedules) {
+            this.schedules = schedules;
+        }
     }
 }

@@ -5,7 +5,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.example.ddschedule.model.ScheduleHeader;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.util.DateUtil;
 
@@ -14,19 +16,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ScheduleViewAdapter extends BaseQuickAdapter<ScheduleModel, BaseViewHolder> {
+public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader, BaseViewHolder> {
 
-    private final List<ScheduleModel> mValues;
+    private final List<ScheduleHeader> mValues;
     private Context mContext;
 
-    public ScheduleViewAdapter(Context context, List<ScheduleModel> ScheduleModel) {
-        super(R.layout.fragment_item, ScheduleModel);
+    public ScheduleViewAdapter(Context context, List<ScheduleHeader> scheduleHeader) {
+        super(R.layout.fragment_item_header, scheduleHeader);
+        setNormalLayout(R.layout.fragment_item);
         mContext = context;
-        mValues = ScheduleModel;
+        mValues = scheduleHeader;
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder helper, ScheduleModel s) {
+    protected void convertHeader(@NotNull BaseViewHolder helper, @NotNull ScheduleHeader s) {
+        if (s.getObject() instanceof String) {
+            helper.setText(R.id.item_header, (String) s.getObject());
+        }
+    }
+
+    @Override
+    protected void convert(@NotNull BaseViewHolder helper, ScheduleHeader sh) {
+        ScheduleModel s = (ScheduleModel) sh.getObject();
         Glide.with(mContext)
                 .load(s.getThumbnail_url())
                 .centerCrop()
@@ -40,7 +51,9 @@ public class ScheduleViewAdapter extends BaseQuickAdapter<ScheduleModel, BaseVie
     }
 
     //设置数据的方法
-    public void setData(List<ScheduleModel> list){
+    public void setData(List<ScheduleHeader> list){
         setNewInstance(list);
     }
+
+
 }
