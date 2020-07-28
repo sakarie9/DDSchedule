@@ -1,6 +1,8 @@
 package com.example.ddschedule;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,9 +24,12 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.example.ddschedule.model.ScheduleHeader;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.network.NetworkRequest;
 import com.example.ddschedule.util.HeaderUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,17 +43,18 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
 
     private ScheduleViewAdapter mScheduleViewAdapter;
 
-    private List<ScheduleModel> mList = new ArrayList<>();
+    //private List<ScheduleModel> mList = new ArrayList<>();
+    private List<ScheduleHeader> mList = new ArrayList<>();
 
     //创建 Handler对象，并关联主线程消息队列
     public Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             if (msg.what==1){
                 // mlist=(ArrayList<NewsData.DataBean>) newsData.getData();
-                mList= (List<ScheduleModel>) msg.obj;
-                mScheduleViewAdapter.setData(HeaderUtil.addHeader(mList));
+                mList= HeaderUtil.addHeader((List<ScheduleModel>) msg.obj);
+                mScheduleViewAdapter.setData(mList);
             }
         }
     };
@@ -77,14 +83,19 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             RecyclerView recyclerView = (RecyclerView) view;
             initData();
             recyclerView.setLayoutManager(new GridLayoutManager(context, SPAN_COUNT));
-            mScheduleViewAdapter = new ScheduleViewAdapter(context, HeaderUtil.addHeader(mList));
+            mScheduleViewAdapter = new ScheduleViewAdapter(context, mList);
             recyclerView.setAdapter(mScheduleViewAdapter);
 
             // 设置点击事件
             mScheduleViewAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    Toast.makeText(getContext(), "Clicked "+position, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Clicked "+position, Toast.LENGTH_SHORT).show();
+                    if (!mList.get(position).isHeader()){
+                        Uri uri = Uri.parse("https://www.youtube.com/watch?v="+((ScheduleModel)mList.get(position).getObject()).getVideo_id());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
                 }
             });
         }
