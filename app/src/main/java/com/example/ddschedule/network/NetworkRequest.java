@@ -3,6 +3,7 @@ package com.example.ddschedule.network;
 import android.util.Log;
 
 import com.example.ddschedule.model.ScheduleModel;
+import com.example.ddschedule.util.DateUtil;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ public class NetworkRequest {
 
     public void postData(final NetDataCallback netDataCallback){
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
-        String str = "{\"filter_state\":\"{\\\"open\\\":true,\\\"selectedGroups\\\":\\\"cover,hololivechina,kaguragumi,noripro\\\",\\\"following\\\":false,\\\"text\\\":\\\"\\\"}\",\"start\":\"2020-07-27 18:43:15\",\"end\":\"2020-08-03 06:00:00\"}";
+        String str = BodyBuilder();
         RequestBody body = RequestBody.create(str, JSON);
         Request request = new Request.Builder()//创建Request 对象。
                 .url("https://hiyoko.sonoj.net/f/avtapi/schedule/fetch_curr")
@@ -55,22 +56,26 @@ public class NetworkRequest {
             }
         });
     }
-//    //数据的获取接口
-//    public interface onLoadData{
-//        void success(List<ScheduleModel> data);
-//        void failure();
-//    }
-//    private onLoadData mOnLoadData;
-//
-//    public void OKHTTP(onLoadData onLoadData) {
-//        mOnLoadData = onLoadData;
-//    }
+
+    private String BodyBuilder(){
+        DateUtil dateUtil = new DateUtil();
+        long start = dateUtil.getCurTimeLong();
+        long end = start + 172800000L;
+        String startStr = DateUtil.getDateToString(start, "yyyy-MM-dd HH:mm:ss");
+        String endStr = DateUtil.getDateToString(end, "yyyy-MM-dd HH:mm:ss");
+        String groups = "cover,hololivechina,kaguragumi,noripro";
+        String str = String.format("{\"filter_state\":\"{\\\"open\\\":true,\\\"selectedGroups\\\":\\\"%s\\\",\\\"following\\\":false,\\\"text\\\":\\\"\\\"}\",\"start\":\"%s\",\"end\":\"%s\"}",
+                groups, startStr, endStr);
+        Log.d("BodyBuilder", str);
+        return str;
+    }
+
     public interface NetDataCallback {
         void callback(List<ScheduleModel> data);
         void err(int code,String s);
     }
 
-    public class Schedules {
+    public static class Schedules {
         private List<ScheduleModel> schedules;
 
         public Schedules(List<ScheduleModel> schedules) {
@@ -79,10 +84,6 @@ public class NetworkRequest {
 
         public List<ScheduleModel> getSchedules() {
             return schedules;
-        }
-
-        public void setSchedules(List<ScheduleModel> schedules) {
-            this.schedules = schedules;
         }
     }
 }

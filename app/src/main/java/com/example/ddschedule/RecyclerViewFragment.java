@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,10 +34,7 @@ import java.util.List;
  */
 public class RecyclerViewFragment extends Fragment implements NetworkRequest.NetDataCallback {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private static final int SPAN_COUNT = 2;
 
     private ScheduleViewAdapter mScheduleViewAdapter;
 
@@ -78,7 +76,7 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             initData();
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setLayoutManager(new GridLayoutManager(context, SPAN_COUNT));
             mScheduleViewAdapter = new ScheduleViewAdapter(context, HeaderUtil.addHeader(mList));
             recyclerView.setAdapter(mScheduleViewAdapter);
 
@@ -116,6 +114,8 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             initData();
             Toast.makeText(getContext(), "Refresh Complete", Toast.LENGTH_SHORT).show();
             return true;
+        } else if (item.getItemId() == R.id.toolbar_edit) {
+
         }
         return super.onOptionsItemSelected(item);
     }
