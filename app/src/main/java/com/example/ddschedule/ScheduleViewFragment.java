@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  */
-public class RecyclerViewFragment extends Fragment implements NetworkRequest.NetDataCallback {
+public class ScheduleViewFragment extends Fragment implements NetworkRequest.NetDataCallback {
 
     private static final int SPAN_COUNT = 2;
 
@@ -63,7 +63,7 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public RecyclerViewFragment() {
+    public ScheduleViewFragment() {
     }
 
     @Override
@@ -126,7 +126,8 @@ public class RecyclerViewFragment extends Fragment implements NetworkRequest.Net
             Toast.makeText(getContext(), "Refresh Complete", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == R.id.toolbar_edit) {
-
+            Intent intent = new Intent(getContext(),GroupSelectActivity.class);
+            getContext().startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

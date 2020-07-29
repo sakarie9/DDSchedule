@@ -8,9 +8,10 @@
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
+    app:cardUseCompatPadding="false"
     android:clickable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    android:layout_margin="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"
@@ -31,13 +32,15 @@
 
                 <TextView
                     android:id="@+id/groups_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:textAlignment="textEnd"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="visible"
+                    app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toTopOf="@+id/title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thumbnail"
@@ -45,14 +48,16 @@
 
                 <TextView
                     android:id="@+id/streamer_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textStyle="bold"
                     android:visibility="visible"
+                    app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toTopOf="@+id/title"
+                    app:layout_constraintEnd_toStartOf="@+id/groups_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/thumbnail"
                     tools:text="streamer_name" />
@@ -64,7 +69,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/thumbnail"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="scheduled_start_time" />
