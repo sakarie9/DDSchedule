@@ -30,6 +30,7 @@ import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.network.NetworkRequest;
 import com.example.ddschedule.util.HeaderUtil;
 import com.example.ddschedule.util.ListDataUtil;
+import com.example.ddschedule.util.SharedPreferencesUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -126,8 +127,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_refresh) {
             initData();
-            Toast.makeText(getContext(), "Refresh Complete", Toast.LENGTH_SHORT).show();
-            return true;
+            //Toast.makeText(getContext(), "Refresh Complete", Toast.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.toolbar_edit) {
             Intent intent = new Intent(getContext(),GroupSelectActivity.class);
             getContext().startActivity(intent);
@@ -138,6 +138,11 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
     @Override
     public void onResume() {
         super.onResume();
-        initData();
+        Boolean isRefresh = (Boolean) SharedPreferencesUtil.getParam(getContext(), "group_refresh", false);
+        Log.d("TAG", "onResume: "+isRefresh);
+        if (isRefresh) {
+            initData();
+            SharedPreferencesUtil.setParam(getContext(), "group_refresh", false);
+        }
     }
 }

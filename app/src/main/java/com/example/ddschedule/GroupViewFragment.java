@@ -21,6 +21,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.ddschedule.model.GroupModel;
 import com.example.ddschedule.util.GroupSelectUtil;
 import com.example.ddschedule.util.ListDataUtil;
+import com.example.ddschedule.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class GroupViewFragment extends Fragment {
         // 从GroupSelectUtil获取Groups信息
         GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
         List<String> list = listDataUtil.getDataList();
-        Log.d("TAG get", list.toString());
+        //Log.d("TAG get", list.toString());
         mGroups = gUtil.setSelectedGroupIDs(list);
     }
 
@@ -130,8 +131,9 @@ public class GroupViewFragment extends Fragment {
 
             //保存
             listDataUtil.setDataList(gUtil.getSelectedGroupsIDs());
-            Log.d("TAG set", gUtil.getSelectedGroupsIDs().toString());
+            //Log.d("TAG set", gUtil.getSelectedGroupsIDs().toString());
             getActivity().onBackPressed();
+            SharedPreferencesUtil.setParam(context, "group_refresh", true);
         }
         return super.onOptionsItemSelected(item);
     }

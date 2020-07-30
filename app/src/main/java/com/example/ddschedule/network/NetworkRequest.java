@@ -47,7 +47,7 @@ public class NetworkRequest {
 //                Log.d("kwwl","response.body().string()=="+response.body().string());
                 //成功解析成对象，调用接口把集合返回
                 String ss = response.body().string();
-                Log.d("NetworkRequest", ss);
+                //Log.d("NetworkRequest", ss);
 //                ScheduleModel schedule = new Gson().fromJson(ss,Bean.class);
 //                List<ScheduleModel> data = new Gson().fromJson(ss,ScheduleModel.class);
                 Schedules schedules = new Gson().fromJson(ss, Schedules.class);
@@ -72,7 +72,7 @@ public class NetworkRequest {
         String groupsStr = String.join(",", groups);
         String str = String.format("{\"filter_state\":\"{\\\"open\\\":true,\\\"selectedGroups\\\":\\\"%s\\\",\\\"following\\\":false,\\\"text\\\":\\\"\\\"}\",\"start\":\"%s\",\"end\":\"%s\"}",
                 groupsStr, startStr, endStr);
-        Log.d("BodyBuilder", str);
+        //Log.d("BodyBuilder", str);
         return str;
     }
 
