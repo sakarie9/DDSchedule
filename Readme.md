@@ -2,4 +2,4 @@
 
 ## An Android App lists Vtubers live schedule
 
-![image](http://github.com/xzsk2/DDSchedule/raw/master/images/Schedules.png)
+![image](https://github.com/xzsk2/DDSchedule/blob/master/images/Schedules.png)
