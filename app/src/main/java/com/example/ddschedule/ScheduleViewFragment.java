@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ import com.example.ddschedule.model.ScheduleHeader;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.network.NetworkRequest;
 import com.example.ddschedule.util.HeaderUtil;
+import com.example.ddschedule.util.ListDataUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +56,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
             if (msg.what==1){
                 // mlist=(ArrayList<NewsData.DataBean>) newsData.getData();
                 mList= HeaderUtil.addHeader((List<ScheduleModel>) msg.obj);
-                mScheduleViewAdapter.setData(mList);
+                mScheduleViewAdapter.setNewInstance(mList);
             }
         }
     };
@@ -102,7 +104,8 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
         return view;
     }
     private void initData() {
-        NetworkRequest http=new NetworkRequest();
+        ListDataUtil listDataUtil = new ListDataUtil(getContext());
+        NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
         http.postData(this);
     }
 
@@ -130,5 +133,11 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
             getContext().startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 }

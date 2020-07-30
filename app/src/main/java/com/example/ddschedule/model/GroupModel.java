@@ -1,8 +1,11 @@
 package com.example.ddschedule.model;
 
-import android.util.Log;
 
-public class GroupModel implements Comparable<GroupModel> {
+import java.text.Collator;
+import java.util.Comparator;
+import java.util.Locale;
+
+public class GroupModel implements Comparator<GroupModel> {
     private String group_id;
     private String name;
     private String name_jpn;
@@ -81,11 +84,21 @@ public class GroupModel implements Comparable<GroupModel> {
         isSelected = selected;
     }
 
+//    @Override
+//    public int compareTo(GroupModel gm) {
+//        int num = this.isSelected.compareTo(gm.isSelected);
+//        if (num == 0){
+//            return this.getName().compareTo(gm.getName());
+//        }
+//        return num;
+//    }
+
     @Override
-    public int compareTo(GroupModel gm) {
-        int num = this.isSelected.compareTo(gm.isSelected);
+    public int compare(GroupModel o1, GroupModel o2) {
+        //int num = Collator.getInstance().compare(o1.isSelected(),o2.isSelected());
+        int num = o2.isSelected.compareTo(o1.isSelected);
         if (num == 0){
-            return this.getName().compareTo(gm.getName());
+            return Collator.getInstance(Locale.JAPANESE).compare(o1.getName(),o2.getName());
         }
         return num;
     }

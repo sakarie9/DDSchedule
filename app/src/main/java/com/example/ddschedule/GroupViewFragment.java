@@ -19,16 +19,11 @@ import android.widget.CheckBox;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.ddschedule.model.GroupModel;
-import com.example.ddschedule.util.JsonLocalUtil;
+import com.example.ddschedule.util.GroupSelectUtil;
+import com.example.ddschedule.util.ListDataUtil;
 
-import org.json.JSONException;
-
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 /**
  * A fragment representing a list of Items.
@@ -43,6 +38,8 @@ public class GroupViewFragment extends Fragment {
     GroupViewAdapter mGroupViewAdapter;
 
     List<GroupModel> mGroups = new ArrayList<>();
+
+    ListDataUtil listDataUtil;
 
 
     /**
@@ -74,6 +71,13 @@ public class GroupViewFragment extends Fragment {
 //        for (int i = 0;i<DummyContent.ITEMS.size();i++) {
 //            checkState.put(i,false);
 //        }
+        Context context = getContext();
+        listDataUtil = new ListDataUtil(context);
+        // 从GroupSelectUtil获取Groups信息
+        GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
+        List<String> list = listDataUtil.getDataList();
+        Log.d("TAG get", list.toString());
+        mGroups = gUtil.setSelectedGroupIDs(list);
     }
 
     @Override
@@ -91,17 +95,8 @@ public class GroupViewFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-            //获取社团数据
-            try {
-
-                mGroups = JsonLocalUtil.getGroups(context);
-                Collator collator = Collator.getInstance(Locale.JAPANESE);
-                Collections.sort(mGroups);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
             mGroupViewAdapter = new GroupViewAdapter(context, mGroups);
             recyclerView.setAdapter(mGroupViewAdapter);
@@ -130,15 +125,13 @@ public class GroupViewFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_save) {
-            List<Boolean> boolList = new ArrayList<>();
-            boolList.add(true);
-            // JDK1.8提供了lambda表达式， 可以从stuList中过滤出符合条件的结果。
-            // 定义结果集
-            List<GroupModel> result = null;
-            result = mGroups.stream()
-                    .filter((GroupModel s) -> boolList.contains(s.isSelected()))
-                    .collect(Collectors.toList());
-            Log.d("TAG", result.toString());
+            Context context = getContext();
+            GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
+
+            //保存
+            listDataUtil.setDataList(gUtil.getSelectedGroupsIDs());
+            Log.d("TAG set", gUtil.getSelectedGroupsIDs().toString());
+            getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

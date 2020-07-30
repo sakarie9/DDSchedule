@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.util.DateUtil;
+import com.example.ddschedule.util.ListDataUtil;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +22,11 @@ import okhttp3.Response;
 
 public class NetworkRequest {
 
-    public NetworkRequest() { }
+    private List<String> groups;
+
+    public NetworkRequest(List<String> groups) {
+        this.groups = groups;
+    }
 
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -63,9 +68,10 @@ public class NetworkRequest {
         long end = start + 172800000L;
         String startStr = DateUtil.getDateToString(start, "yyyy-MM-dd HH:mm:ss");
         String endStr = DateUtil.getDateToString(end, "yyyy-MM-dd HH:mm:ss");
-        String groups = "cover,hololivechina,kaguragumi,noripro";
+        //String groups = "cover,hololivechina,kaguragumi,noripro";
+        String groupsStr = String.join(",", groups);
         String str = String.format("{\"filter_state\":\"{\\\"open\\\":true,\\\"selectedGroups\\\":\\\"%s\\\",\\\"following\\\":false,\\\"text\\\":\\\"\\\"}\",\"start\":\"%s\",\"end\":\"%s\"}",
-                groups, startStr, endStr);
+                groupsStr, startStr, endStr);
         Log.d("BodyBuilder", str);
         return str;
     }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
                 .into((ImageView) helper.getView(R.id.group_avatar));
 
         helper.setText(R.id.group_name, item.getName());
+        ((CheckBox)helper.getView(R.id.group_checkbox)).setChecked(item.isSelected());
     }
 
 }
