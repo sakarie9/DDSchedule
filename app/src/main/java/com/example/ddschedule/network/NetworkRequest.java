@@ -65,7 +65,8 @@ public class NetworkRequest {
     private String BodyBuilder(){
         DateUtil dateUtil = new DateUtil();
         long start = dateUtil.getCurTimeLong();
-        long end = start + 172800000L;
+        //long end = start + 172800000L; //172800000ms = 48h
+        long end = start + 345600000L;
         String startStr = DateUtil.getDateToString(start, "yyyy-MM-dd HH:mm:ss");
         String endStr = DateUtil.getDateToString(end, "yyyy-MM-dd HH:mm:ss");
         //String groups = "cover,hololivechina,kaguragumi,noripro";

@@ -16,6 +16,10 @@ import java.util.Date;
  * 4，日期格式：String dateString = "2017年06月20日" 对应的格式：String pattern = "yyyy年MM月dd日";
  */
 public class DateUtil {
+
+    public static final long OFFSET_TIMESTAMP_BEFORE = 3600000L;
+    public static final long OFFSET_TIMESTAMP_AFTER = 172800000L;
+
     /**
      * 获取系统时间戳
      * @return
@@ -62,5 +66,15 @@ public class DateUtil {
             e.printStackTrace();
         }
         return date.getTime();
+    }
+
+    public long getOffsetTimestampBefore() {
+        long timeNow = System.currentTimeMillis();
+        return timeNow - OFFSET_TIMESTAMP_BEFORE;
+    }
+
+    public long getOffsetTimestampAfter() {
+        long timeNow = System.currentTimeMillis();
+        return timeNow + OFFSET_TIMESTAMP_AFTER;
     }
 }

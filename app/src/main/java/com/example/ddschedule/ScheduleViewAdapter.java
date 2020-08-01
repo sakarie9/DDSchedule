@@ -21,14 +21,12 @@ import java.util.List;
 
 public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader, BaseViewHolder> {
 
-    private final List<ScheduleHeader> mValues;
     private Context mContext;
 
     public ScheduleViewAdapter(Context context, List<ScheduleHeader> scheduleHeader) {
         super(R.layout.fragment_item_header, scheduleHeader);
         setNormalLayout(R.layout.fragment_item);
         mContext = context;
-        mValues = scheduleHeader;
     }
 
     @Override
@@ -54,11 +52,4 @@ public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader,
         helper.setText(R.id.streamer_name, s.getStreamer_name());
         helper.setText(R.id.title, s.getTitle());
     }
-
-    //设置数据的方法
-    public void setData(List<ScheduleHeader> list){
-        setNewInstance(list);
-    }
-
-
 }
