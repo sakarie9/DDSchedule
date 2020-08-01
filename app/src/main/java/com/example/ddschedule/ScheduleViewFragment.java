@@ -95,7 +95,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
                 }
-                initData();
+                requestData(mSelectedGroupIDs);
             }
         });
 
