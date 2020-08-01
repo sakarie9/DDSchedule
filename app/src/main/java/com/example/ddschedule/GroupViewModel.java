@@ -28,6 +28,7 @@ public class GroupViewModel extends AndroidViewModel {
     LiveData<List<GroupModel>> getGroups() { return mGroups; }
     LiveData<List<ScheduleModel>> getSchedules() { return mSchedules; }
 
-    public void insertGroups(List<GroupModel> groups) { mRepository.insertGroups(groups); }
+    public void insertGroup(GroupModel group) { mRepository.insertGroup(group); }
+    public void insertAllGroups(List<GroupModel> groups) { mRepository.insertAllGroups(groups); }
     public void insertSchedules(List<ScheduleModel> schedules) { mRepository.insertSchedules(schedules); }
 }

@@ -14,6 +14,9 @@ import java.util.List;
 public interface GroupDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(GroupModel group);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<GroupModel> groups);
 
     @Query("DELETE FROM group_table")

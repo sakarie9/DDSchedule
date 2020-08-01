@@ -47,7 +47,13 @@ public class DataRepository {
         });
     }
 
-    void insertGroups(List<GroupModel> groups) {
+
+    void insertGroup(GroupModel group) {
+        AppDataBase.databaseWriteExecutor.execute(()->{
+            mGroupDao.insert(group);
+        });
+    }
+    void insertAllGroups(List<GroupModel> groups) {
         AppDataBase.databaseWriteExecutor.execute(() -> {
             mGroupDao.insertAll(groups);
         });

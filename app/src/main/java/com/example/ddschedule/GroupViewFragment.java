@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +45,9 @@ public class GroupViewFragment extends Fragment {
 
     ListDataUtil listDataUtil;
 
+    //Room Stuff
+    private GroupViewModel mGroupViewModel;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -69,16 +75,15 @@ public class GroupViewFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-//        for (int i = 0;i<DummyContent.ITEMS.size();i++) {
-//            checkState.put(i,false);
-//        }
-        Context context = getContext();
-        listDataUtil = new ListDataUtil(context);
-        // 从GroupSelectUtil获取Groups信息
-        GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
-        List<String> list = listDataUtil.getDataList();
-        //Log.d("TAG get", list.toString());
-        mGroups = gUtil.setSelectedGroupIDs(list);
+//        Context context = getContext();
+//        listDataUtil = new ListDataUtil(context);
+//        // 从GroupSelectUtil获取Groups信息
+//        GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
+//        List<String> list = listDataUtil.getDataList();
+//        //Log.d("TAG get", list.toString());
+//        mGroups = gUtil.setSelectedGroupIDs(list);
+
+
     }
 
     @Override
@@ -96,11 +101,20 @@ public class GroupViewFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
 
-
-
-
             mGroupViewAdapter = new GroupViewAdapter(context, mGroups);
             recyclerView.setAdapter(mGroupViewAdapter);
+
+            //Room
+            mGroupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+            mGroupViewModel.getGroups().observe(getViewLifecycleOwner(), new Observer<List<GroupModel>>() {
+                @Override
+                public void onChanged(@Nullable final List<GroupModel> groups) {
+                    // Update the cached copy of the words in the adapter.
+                    mGroups = groups;
+                    mGroupViewAdapter.setList(mGroups);
+                }
+            });
+
 
             // 设置点击事件
             mGroupViewAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -127,13 +141,16 @@ public class GroupViewFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.toolbar_save) {
             Context context = getContext();
-            GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
+            //GroupSelectUtil gUtil = new GroupSelectUtil(context, mGroups);
 
-            //保存
-            listDataUtil.setDataList(gUtil.getSelectedGroupsIDs());
-            //Log.d("TAG set", gUtil.getSelectedGroupsIDs().toString());
+            mGroupViewModel.insertAllGroups(mGroups);
+
+//            //保存
+//            listDataUtil.setDataList(gUtil.getSelectedGroupsIDs());
+//            //Log.d("TAG set", gUtil.getSelectedGroupsIDs().toString());
+//            getActivity().onBackPressed();
+//            SharedPreferencesUtil.setParam(context, "group_refresh", true);
             getActivity().onBackPressed();
-            SharedPreferencesUtil.setParam(context, "group_refresh", true);
         }
         return super.onOptionsItemSelected(item);
     }
