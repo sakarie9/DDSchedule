@@ -22,7 +22,7 @@ public interface GroupDao {
     @Query("DELETE FROM group_table")
     void deleteAll();
 
-    @Query("SELECT * FROM group_table ORDER BY name ASC")
+    @Query("SELECT * FROM group_table ORDER BY isSelected DESC ,name ASC")
     LiveData<List<GroupModel>> getGroups();
 
     @Query("SELECT group_id FROM group_table WHERE isSelected = 1")
