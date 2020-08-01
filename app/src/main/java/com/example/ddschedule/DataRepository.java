@@ -40,7 +40,7 @@ public class DataRepository {
 
     LiveData<List<ScheduleModel>> getSchedules(List<String> groups) {
         DateUtil dateUtil = new DateUtil();
-        if (groups == null)
+        if (groups == null || groups.size() == 0)
             mSchedules = mScheduleDao.getAllSchedules(dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());
         else
             mSchedules = mScheduleDao.getSchedules(groups, dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());

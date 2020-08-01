@@ -118,7 +118,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                         public void onChanged(List<ScheduleModel> scheduleModels) {
                             mModels = scheduleModels;
                             mHeaders = HeaderUtil.addHeader(mModels);
-                            mScheduleViewAdapter.setList(mHeaders);
+                            mScheduleViewAdapter.setNewInstance(mHeaders);
                         }
                     });
                 }
