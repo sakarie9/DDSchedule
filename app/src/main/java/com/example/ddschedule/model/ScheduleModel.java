@@ -1,11 +1,19 @@
 package com.example.ddschedule.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+
+@Entity(tableName = "schedule_table", primaryKeys = {"streamer_id", "scheduled_start_time"})
 public class ScheduleModel {
     private String ch_id;
     private int ch_type;
     private String groups;
     private String groups_name;
+    @ColumnInfo(index = true)
+    @NonNull
     private long scheduled_start_time;
+    @NonNull
     private String streamer_id;
     private String streamer_name;
     private String streamer_name_en;

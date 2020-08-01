@@ -1,20 +1,32 @@
 package com.example.ddschedule.model;
 
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 
+@Entity(tableName = "group_table")
 public class GroupModel implements Comparator<GroupModel> {
+    @PrimaryKey
+    @NonNull
     private String group_id;
+    @ColumnInfo(index = true)
     private String name;
     private String name_jpn;
     private String twitter_id;
     private String twitter_thumbnail_url;
     private String count;
 
-    private Boolean isSelected;
+    public Boolean isSelected;
 
+    @Ignore
     public GroupModel(String group_id, String name, String name_jpn, String twitter_id, String twitter_thumbnail_url, String count) {
         this.group_id = group_id;
         this.name = name;
