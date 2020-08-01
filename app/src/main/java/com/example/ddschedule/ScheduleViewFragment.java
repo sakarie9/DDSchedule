@@ -7,10 +7,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -36,11 +38,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
  */
 public class ScheduleViewFragment extends Fragment implements NetworkRequest.NetDataCallback {
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final int SPAN_COUNT = 2;
 
@@ -80,10 +85,21 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        swipeRefreshLayout = view.findViewById(R.id.schedule_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+                initData();
+            }
+        });
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
+        if (view instanceof SwipeRefreshLayout) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
             initData();
             recyclerView.setLayoutManager(new GridLayoutManager(context, SPAN_COUNT));
             mScheduleViewAdapter = new ScheduleViewAdapter(context, mList);
@@ -108,6 +124,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
         ListDataUtil listDataUtil = new ListDataUtil(getContext());
         NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
         http.postData(this);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
