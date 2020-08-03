@@ -140,9 +140,12 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                     });
                 }
             });
-
-
         }
+
+        // 启动Work
+        mScheduleViewModel.startSyncWork();
+        mScheduleViewModel.startNotificationWork();
+
         return view;
     }
     private void requestData(List<String> groups) {

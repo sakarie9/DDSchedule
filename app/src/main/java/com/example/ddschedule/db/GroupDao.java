@@ -27,4 +27,7 @@ public interface GroupDao {
 
     @Query("SELECT group_id FROM group_table WHERE isSelected = 1")
     LiveData<List<String>> getSelectedGroupIDs();
+
+    @Query("SELECT group_id FROM group_table WHERE isSelected = 1")
+    List<String> getSelectedGroupIDsNow();
 }

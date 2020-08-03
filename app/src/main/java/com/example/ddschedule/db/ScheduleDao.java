@@ -28,4 +28,9 @@ public interface ScheduleDao {
             "WHERE scheduled_start_time BETWEEN :start_timestamp AND :end_timestamp " +
             "ORDER BY scheduled_start_time ASC")
     LiveData<List<ScheduleModel>> getAllSchedules(long start_timestamp, long end_timestamp);
+
+    @Query("SELECT * FROM schedule_table " +
+            "WHERE groups IN (:groups) AND (scheduled_start_time - :now_time) >= :interval_time " +
+            "ORDER BY scheduled_start_time ASC")
+    List<ScheduleModel> getNotificationSchedules(List<String> groups, long now_time, long interval_time);
 }
