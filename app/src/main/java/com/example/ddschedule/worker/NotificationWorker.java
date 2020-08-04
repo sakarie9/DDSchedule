@@ -9,13 +9,14 @@ import androidx.work.WorkerParameters;
 
 import com.example.ddschedule.db.AppDataBase;
 import com.example.ddschedule.model.ScheduleModel;
+import com.example.ddschedule.util.DateUtil;
 import com.example.ddschedule.util.NotificationUtil;
 
 import java.util.List;
 
 public class NotificationWorker extends Worker {
 
-    public static final String SCHEDULE_SYNC_WORK_NAME = "notification_work";
+    public static final String SCHEDULE_NOTIFICATION_WORK_NAME = "notification_work";
     public static final Long INTERVAL_TIME = 900000L; // 15 minutes
 
     private Context appContext;
@@ -34,20 +35,22 @@ public class NotificationWorker extends Worker {
         NotificationUtil notificationUtil = new NotificationUtil(appContext);
         notificationUtil.setupChannel();
         notificationUtil.showNotification(schedules);
-        return null;
+        Log.d("TAG", "NotificationWorker: Notification Complete");
+        return Result.success();
     }
 
     private List<String> getGroupIDs() {
         List<String> tmpGroups = AppDataBase.getDatabase(appContext).groupDao().getSelectedGroupIDsNow();
-        Log.d("TAG", "getGroupIDs: "+tmpGroups.toString());
+        //Log.d("TAG", "getGroupIDs: "+tmpGroups.toString());
         return tmpGroups;
     }
 
     private List<ScheduleModel> getSchedules(List<String> groups) {
         List<ScheduleModel> schedules = AppDataBase.getDatabase(appContext).scheduleDao().
                 getNotificationSchedules(groups, System.currentTimeMillis(), INTERVAL_TIME);
+//        Log.d("TAG", "getSchedules: "+ DateUtil.getDateToString(System.currentTimeMillis(), "MM-dd HH:mm")+" "+
+//                DateUtil.getDateToString(System.currentTimeMillis()+INTERVAL_TIME, "MM-dd HH:mm"));
+//        Log.d("TAG", "getSchedules: "+schedules.toString());
         return schedules;
     }
-
-
 }

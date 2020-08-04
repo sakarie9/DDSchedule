@@ -21,6 +21,7 @@ import com.example.ddschedule.worker.ScheduleSyncWorker;
 
 import java.util.List;
 
+import static com.example.ddschedule.worker.NotificationWorker.SCHEDULE_NOTIFICATION_WORK_NAME;
 import static com.example.ddschedule.worker.ScheduleSyncWorker.SCHEDULE_SYNC_WORK_NAME;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -74,10 +75,11 @@ public class ScheduleViewModel extends AndroidViewModel {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
         PeriodicWorkRequest build = new PeriodicWorkRequest.Builder(
-                ScheduleSyncWorker.class, 30, MINUTES, 3, MINUTES) //每三十分钟同步一次
+                ScheduleSyncWorker.class, 30, MINUTES, 5, MINUTES) //每三十分钟同步一次
+                //ScheduleSyncWorker.class, 30, MINUTES)
                 .setConstraints(constraints)
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_SYNC_WORK_NAME, ExistingPeriodicWorkPolicy.KEEP, build);
+        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_SYNC_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, build);
     }
 
     public void startWorkNow() {
@@ -86,8 +88,9 @@ public class ScheduleViewModel extends AndroidViewModel {
 
     public void startNotificationWork() {
         PeriodicWorkRequest build = new PeriodicWorkRequest.Builder(
-                NotificationWorker.class, 15, MINUTES, 3, MINUTES) //每十五分钟同步一次
+                NotificationWorker.class, 15, MINUTES, 5, MINUTES) //每十五分钟同步一次
+                //NotificationWorker.class, 15, MINUTES)
                 .build();
-        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_SYNC_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, build);
+        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_NOTIFICATION_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, build);
     }
 }

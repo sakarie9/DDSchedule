@@ -36,12 +36,12 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
     @Override
     public Result doWork() {
         requestData(getGroupIDs());
-        return null;
+        return Result.success();
     }
 
     private List<String> getGroupIDs() {
         List<String> tmpGroups = AppDataBase.getDatabase(appContext).groupDao().getSelectedGroupIDsNow();
-        Log.d("TAG", "getGroupIDs: "+tmpGroups.toString());
+        //Log.d("TAG", "getGroupIDs: "+tmpGroups.toString());
         return tmpGroups;
     }
 
@@ -57,9 +57,10 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
             super.handleMessage(msg);
             if (msg.what==1){
                 List<ScheduleModel> tmpSchedules = (List<ScheduleModel>)msg.obj;
-                Log.d("TAG", "handleMessage: "+(tmpSchedules).toString());
+                //Log.d("TAG", "handleMessage: "+(tmpSchedules).toString());
                 AppDataBase.databaseWriteExecutor.execute(() -> {
                     AppDataBase.getDatabase(appContext).scheduleDao().insertAll(tmpSchedules);
+                    Log.d("TAG", "ScheduleWorker: Sync Complete");
                 });
             }
         }

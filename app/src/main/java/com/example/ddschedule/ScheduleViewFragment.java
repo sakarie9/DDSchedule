@@ -66,6 +66,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                 //List<ScheduleModel> sm = (List<ScheduleModel>)msg.obj;
                 //mScheduleViewAdapter.setList(mList);
                 mScheduleViewModel.insertSchedules((List<ScheduleModel>)msg.obj);
+                swipeRefreshLayout.setRefreshing(false);
             }
         }
     };
@@ -153,7 +154,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
         //NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
         NetworkRequest http=new NetworkRequest(groups);
         http.postData(this);
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override

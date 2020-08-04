@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
+import com.example.ddschedule.util.DateUtil;
+
 @Entity(tableName = "schedule_table", primaryKeys = {"streamer_id", "scheduled_start_time"})
 public class ScheduleModel {
     private String ch_id;
@@ -121,5 +123,14 @@ public class ScheduleModel {
 
     public void setVideo_id(String video_id) {
         this.video_id = video_id;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String str = groups + ' ' +
+                streamer_name + ' ' +
+                DateUtil.getDateToString(scheduled_start_time, "MM-dd HH:mm");
+        return str;
     }
 }
