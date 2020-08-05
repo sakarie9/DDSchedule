@@ -23,8 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolder> {
 
