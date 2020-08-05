@@ -130,15 +130,17 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                     mSelectedGroupIDs = strings;
                     requestData(mSelectedGroupIDs);
 
-                    //Low performance, get nonnull mSelectedGroupIDs
-                    mScheduleViewModel.getSchedules(mSelectedGroupIDs).observe(getViewLifecycleOwner(), new Observer<List<ScheduleModel>>() {
-                        @Override
-                        public void onChanged(List<ScheduleModel> scheduleModels) {
-                            mModels = scheduleModels;
-                            mHeaders = HeaderUtil.addHeader(mModels);
-                            mScheduleViewAdapter.setNewInstance(mHeaders);
-                        }
-                    });
+                    //setFilter
+                    mScheduleViewModel.setGroups(mSelectedGroupIDs);
+                }
+            });
+
+            mScheduleViewModel.getSchedules().observe(getViewLifecycleOwner(), new Observer<List<ScheduleModel>>() {
+                @Override
+                public void onChanged(List<ScheduleModel> scheduleModels) {
+                    mModels = scheduleModels;
+                    mHeaders = HeaderUtil.addHeader(mModels);
+                    mScheduleViewAdapter.setNewInstance(mHeaders);
                 }
             });
         }

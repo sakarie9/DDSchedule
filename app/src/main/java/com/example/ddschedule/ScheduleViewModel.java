@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
@@ -32,6 +34,8 @@ public class ScheduleViewModel extends AndroidViewModel {
     private LiveData<List<ScheduleModel>> mSchedules;
     private LiveData<List<String>> mSelectedGroupIDs;
 
+    private MutableLiveData<List<String>> filterGroups = new MutableLiveData<List<String>>();
+
     private WorkManager mWorkManager;
 
     public ScheduleViewModel(@NonNull Application application) {
@@ -41,16 +45,23 @@ public class ScheduleViewModel extends AndroidViewModel {
         //mSchedules = mRepository.getSchedules();
         mSelectedGroupIDs = mRepository.getSelectedGroupIDs();
 
+        mSchedules = Transformations.switchMap(filterGroups,
+                c -> mRepository.getSchedules(c));
+
         mWorkManager = WorkManager.getInstance(application);
+
     }
 
     LiveData<List<GroupModel>> getGroups() {
         return mGroups;
     }
 
-    LiveData<List<ScheduleModel>> getSchedules(List<String> groups) {
-        mSchedules = mRepository.getSchedules(groups);
+    LiveData<List<ScheduleModel>> getSchedules() {
         return mSchedules;
+    }
+
+    void setGroups(List<String> groups) {
+        filterGroups.setValue(groups);
     }
 
     LiveData<List<String>> getSelectedGroupIDs() {

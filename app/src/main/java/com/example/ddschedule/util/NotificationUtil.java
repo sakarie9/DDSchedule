@@ -20,7 +20,7 @@ public class NotificationUtil {
 
     public static final String VERBOSE_NOTIFICATION_CHANNEL_NAME = "Live Notification";
     public static final String CHANNEL_ID = "LIVE_NOTIFICATION";
-    public static final String GROUP = "LIVE_NOTIFICATION";
+    public static final String GROUP = "LIVE_NOTIFICATION_GROUP";
 
     private static int NOTIFICATION_ID = 0;
 
@@ -59,8 +59,8 @@ public class NotificationUtil {
 
             // Create the notification
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.group_avatar)
-                    .setContentTitle(schedule.getStreamer_name()+"开播了！")
+                    .setSmallIcon(R.drawable.ic_baseline_live_tv_24)
+                    .setContentTitle(schedule.getStreamer_name()+"将于"+DateUtil.getDateToString(schedule.getScheduled_start_time(), "HH:mm")+"开播！")
                     .setContentText(schedule.getTitle())
                     .setPriority(NotificationCompat.PRIORITY_LOW)
                     .setGroup(GROUP)
