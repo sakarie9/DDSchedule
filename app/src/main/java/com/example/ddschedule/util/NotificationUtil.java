@@ -63,7 +63,7 @@ public class NotificationUtil {
                     .setContentTitle(schedule.getStreamer_name()+"将于"+DateUtil.getDateToString(schedule.getScheduled_start_time(), "HH:mm")+"开播！")
                     .setContentText(schedule.getTitle())
                     .setPriority(NotificationCompat.PRIORITY_LOW)
-                    .setGroup(GROUP)
+//                    .setGroup(GROUP)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);;
 
