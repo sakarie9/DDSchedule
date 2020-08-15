@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,22 +25,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.ddschedule.model.ScheduleHeader;
 import com.example.ddschedule.model.ScheduleModel;
-import com.example.ddschedule.network.NetworkRequest;
-import com.example.ddschedule.util.DateUtil;
+import com.example.ddschedule.network.BiliRequest;
+import com.example.ddschedule.network.MainRequest;
+import com.example.ddschedule.network.YTBRequest;
 import com.example.ddschedule.util.HeaderUtil;
-import com.example.ddschedule.util.ListDataUtil;
-import com.example.ddschedule.util.SharedPreferencesUtil;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
  */
-public class ScheduleViewFragment extends Fragment implements NetworkRequest.NetDataCallback {
+public class ScheduleViewFragment extends Fragment implements MainRequest.NetDataCallback {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -114,10 +109,19 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                     //Toast.makeText(getContext(), "Clicked "+position, Toast.LENGTH_SHORT).show();
+
                     if (!mHeaders.get(position).isHeader()){
-                        Uri uri = Uri.parse("https://www.youtube.com/watch?v="+((ScheduleModel)mHeaders.get(position).getObject()).getVideo_id());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
+                        ScheduleModel scheduleModel = ((ScheduleModel)mHeaders.get(position).getObject());
+                        if (scheduleModel.getCh_type() == 1){
+                            Uri uri = Uri.parse("https://www.youtube.com/watch?v="+scheduleModel.getVideo_id());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        } else if (scheduleModel.getCh_type() == 2){
+                            Uri uri = Uri.parse("https://live.bilibili.com/"+scheduleModel.getVideo_id());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+
                     }
                 }
             });
@@ -154,20 +158,19 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
     private void requestData(List<String> groups) {
         //ListDataUtil listDataUtil = new ListDataUtil(getContext());
         //NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
-        NetworkRequest http=new NetworkRequest(groups, getContext());
-        http.postData(this);
+        MainRequest req = new MainRequest(groups, getContext(), this);
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void callback() {
+    public void NetCallback() {
         Message msg = Message.obtain();
         msg.what=1;
         mHandler.sendMessage(msg);
     }
 
     @Override
-    public void err(int code, String s) {
+    public void NetErr(int code1,String s1, int code2,String s2) {
 
     }
 

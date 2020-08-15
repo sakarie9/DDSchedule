@@ -25,13 +25,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class NetworkRequest {
+public class YTBRequest {
 
     private List<String> groups;
     private Context context;
     private DataRepository dataRepository;
 
-    public NetworkRequest(List<String> groups, Context context) {
+    public YTBRequest(List<String> groups, Context context) {
         this.groups = groups;
         this.context = context;
         dataRepository = new DataRepository(context);
@@ -54,12 +54,12 @@ public class NetworkRequest {
                 String ss = Objects.requireNonNull(response.body()).string();
                 Schedules schedules = new Gson().fromJson(ss, Schedules.class);
                 dataRepository.insertSchedules(schedules.getSchedules());
-                netDataCallback.callback();
+                netDataCallback.YTBCallback();
             }
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                netDataCallback.err(500,e.getMessage());
+                netDataCallback.YTBErr(500,e.getMessage());
             }
         });
     }
@@ -80,8 +80,8 @@ public class NetworkRequest {
     }
 
     public interface NetDataCallback {
-        void callback();
-        void err(int code,String s);
+        void YTBCallback();
+        void YTBErr(int code,String s);
     }
 
     public static class Schedules {

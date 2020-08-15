@@ -11,15 +11,14 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.ddschedule.db.AppDataBase;
-import com.example.ddschedule.model.GroupModel;
 import com.example.ddschedule.model.ScheduleModel;
-import com.example.ddschedule.network.NetworkRequest;
+import com.example.ddschedule.network.MainRequest;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetDataCallback {
+public class ScheduleSyncWorker extends Worker implements MainRequest.NetDataCallback {
 
     public static final String SCHEDULE_SYNC_WORK_NAME = "schedule_sync_work";
 
@@ -46,8 +45,7 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
     }
 
     private void requestData(List<String> groups) {
-        NetworkRequest http=new NetworkRequest(groups, appContext);
-        http.postData(this);
+        MainRequest req = new MainRequest(groups, appContext, this);
     }
 
     //创建 Handler对象，并关联主线程消息队列
@@ -67,14 +65,14 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
     };
 
     @Override
-    public void callback() {
+    public void NetCallback() {
         Message msg = Message.obtain();
         msg.what=1;
         mHandler.sendMessage(msg);
     }
 
     @Override
-    public void err(int code, String s) {
+    public void NetErr(int code1, String s1, int code2, String s2) {
 
     }
 }

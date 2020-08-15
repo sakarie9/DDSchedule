@@ -6,7 +6,7 @@ import androidx.room.Entity;
 
 import com.example.ddschedule.util.DateUtil;
 
-@Entity(tableName = "schedule_table", primaryKeys = {"streamer_id", "scheduled_start_time"})
+@Entity(tableName = "schedule_table", primaryKeys = {"video_id", "scheduled_start_time"})
 public class ScheduleModel {
     private String ch_id;
     private int ch_type;
@@ -15,12 +15,12 @@ public class ScheduleModel {
     @ColumnInfo(index = true)
     @NonNull
     private long scheduled_start_time;
-    @NonNull
     private String streamer_id;
     private String streamer_name;
     private String streamer_name_en;
     private String thumbnail_url;
     private String title;
+    @NonNull
     private String video_id;
 
     public ScheduleModel(String ch_id, int ch_type, String groups, String groups_name, long scheduled_start_time, String streamer_id, String streamer_name, String streamer_name_en, String thumbnail_url, String title, String video_id) {

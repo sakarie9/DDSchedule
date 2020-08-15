@@ -48,8 +48,12 @@ public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader,
         helper.setText(R.id.groups_name, s.getGroups_name());
         String dateStr = DateUtil.getDateToString(
                 s.getScheduled_start_time(), "MM-dd HH:mm");
-        helper.setText(R.id.scheduled_start_time, dateStr);
         helper.setText(R.id.streamer_name, s.getStreamer_name());
         helper.setText(R.id.title, s.getTitle());
+        if (s.getCh_type() == 2) { //Bili icon
+            helper.setImageResource(R.id.source_icon, R.drawable.ic_bilibili);
+        } else {
+            helper.setImageResource(R.id.source_icon, R.drawable.ic_youtube);
+        }
     }
 }
