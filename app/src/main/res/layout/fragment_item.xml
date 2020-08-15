@@ -14,7 +14,7 @@
     android:layout_margin="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/relativeLayout"
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,7 +22,6 @@
                     android:id="@+id/thumbnail"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:contentDescription="TODO"
                     app:layout_constraintDimensionRatio="H,16:9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,4 +91,13 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/source_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:srcCompat="@drawable/ic_youtube" />
 </androidx.cardview.widget.CardView>
