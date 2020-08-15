@@ -1,6 +1,7 @@
 package com.example.ddschedule;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -27,7 +28,7 @@ public class DataRepository {
     // dependency. This adds complexity and much more code, and this sample is not about testing.
     // See the BasicSample in the android-architecture-components repository at
     // https://github.com/googlesamples
-    DataRepository(Application application) {
+    public DataRepository(Context application) {
         AppDataBase db = AppDataBase.getDatabase(application);
 
         mScheduleDao = db.scheduleDao();
@@ -38,7 +39,7 @@ public class DataRepository {
         mSelectedGroupIDs = mGroupDao.getSelectedGroupIDs();
     }
 
-    LiveData<List<ScheduleModel>> getSchedules(List<String> groups) {
+    public LiveData<List<ScheduleModel>> getSchedules(List<String> groups) {
         DateUtil dateUtil = new DateUtil();
         if (groups == null || groups.size() == 0)
             mSchedules = mScheduleDao.getAllSchedules(dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());
@@ -48,27 +49,27 @@ public class DataRepository {
     }
 
 
-    LiveData<List<GroupModel>> getAllGroups() {
+    public LiveData<List<GroupModel>> getAllGroups() {
         return mAllGroups;
     }
 
-    LiveData<List<String>> getSelectedGroupIDs() {
+    public LiveData<List<String>> getSelectedGroupIDs() {
         return mSelectedGroupIDs;
     }
 
-    void insertSchedules(List<ScheduleModel> schedules) {
+    public void insertSchedules(List<ScheduleModel> schedules) {
         AppDataBase.databaseWriteExecutor.execute(() -> {
             mScheduleDao.insertAll(schedules);
         });
     }
 
-    void insertGroup(GroupModel group) {
+    public void insertGroup(GroupModel group) {
         AppDataBase.databaseWriteExecutor.execute(() -> {
             mGroupDao.insert(group);
         });
     }
 
-    void insertAllGroups(List<GroupModel> groups) {
+    public void insertAllGroups(List<GroupModel> groups) {
         AppDataBase.databaseWriteExecutor.execute(() -> {
             mGroupDao.insertAll(groups);
         });

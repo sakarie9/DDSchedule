@@ -46,7 +46,7 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
     }
 
     private void requestData(List<String> groups) {
-        NetworkRequest http=new NetworkRequest(groups);
+        NetworkRequest http=new NetworkRequest(groups, appContext);
         http.postData(this);
     }
 
@@ -67,10 +67,9 @@ public class ScheduleSyncWorker extends Worker implements NetworkRequest.NetData
     };
 
     @Override
-    public void callback(List<ScheduleModel> data) {
+    public void callback() {
         Message msg = Message.obtain();
         msg.what=1;
-        msg.obj=data;
         mHandler.sendMessage(msg);
     }
 

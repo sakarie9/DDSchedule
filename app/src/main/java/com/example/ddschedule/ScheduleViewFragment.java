@@ -65,7 +65,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
             if (msg.what==1){
                 //List<ScheduleModel> sm = (List<ScheduleModel>)msg.obj;
                 //mScheduleViewAdapter.setList(mList);
-                mScheduleViewModel.insertSchedules((List<ScheduleModel>)msg.obj);
+                //mScheduleViewModel.insertSchedules((List<ScheduleModel>)msg.obj);
                 swipeRefreshLayout.setRefreshing(false);
             }
         }
@@ -104,7 +104,7 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
         if (view instanceof SwipeRefreshLayout) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-            requestData(mSelectedGroupIDs);
+            // requestData(mSelectedGroupIDs);
             recyclerView.setLayoutManager(new GridLayoutManager(context, SPAN_COUNT));
             mScheduleViewAdapter = new ScheduleViewAdapter(context, mHeaders);
             recyclerView.setAdapter(mScheduleViewAdapter);
@@ -154,16 +154,15 @@ public class ScheduleViewFragment extends Fragment implements NetworkRequest.Net
     private void requestData(List<String> groups) {
         //ListDataUtil listDataUtil = new ListDataUtil(getContext());
         //NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
-        NetworkRequest http=new NetworkRequest(groups);
+        NetworkRequest http=new NetworkRequest(groups, getContext());
         http.postData(this);
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void callback(List<ScheduleModel> data) {
+    public void callback() {
         Message msg = Message.obtain();
         msg.what=1;
-        msg.obj=data;
         mHandler.sendMessage(msg);
     }
 

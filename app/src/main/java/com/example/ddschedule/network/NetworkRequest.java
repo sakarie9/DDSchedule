@@ -1,7 +1,11 @@
 package com.example.ddschedule.network;
 
+import android.app.Application;
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
+import com.example.ddschedule.DataRepository;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.util.DateUtil;
 import com.example.ddschedule.util.ListDataUtil;
@@ -11,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -23,9 +28,13 @@ import okhttp3.Response;
 public class NetworkRequest {
 
     private List<String> groups;
+    private Context context;
+    private DataRepository dataRepository;
 
-    public NetworkRequest(List<String> groups) {
+    public NetworkRequest(List<String> groups, Context context) {
         this.groups = groups;
+        this.context = context;
+        dataRepository = new DataRepository(context);
     }
 
     public static final MediaType JSON
@@ -42,17 +51,10 @@ public class NetworkRequest {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                Log.d("kwwl","获取数据成功了");
-//                Log.d("kwwl","response.code()=="+response.code());
-//                Log.d("kwwl","response.body().string()=="+response.body().string());
-                //成功解析成对象，调用接口把集合返回
-                String ss = response.body().string();
-                //Log.d("NetworkRequest", ss);
-//                ScheduleModel schedule = new Gson().fromJson(ss,Bean.class);
-//                List<ScheduleModel> data = new Gson().fromJson(ss,ScheduleModel.class);
+                String ss = Objects.requireNonNull(response.body()).string();
                 Schedules schedules = new Gson().fromJson(ss, Schedules.class);
-                //mOnLoadData.success(schedules.getSchedules());
-                netDataCallback.callback(schedules.getSchedules());
+                dataRepository.insertSchedules(schedules.getSchedules());
+                netDataCallback.callback();
             }
 
             @Override
@@ -78,7 +80,7 @@ public class NetworkRequest {
     }
 
     public interface NetDataCallback {
-        void callback(List<ScheduleModel> data);
+        void callback();
         void err(int code,String s);
     }
 
