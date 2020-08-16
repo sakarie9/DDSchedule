@@ -86,7 +86,7 @@ public class BiliRequest {
 
                 List<ScheduleModel> scheduleModels = scheduleConvert(groupName, biliSchedules);
 
-                Log.d(TAG, "onResponse: " + scheduleModels);
+                //Log.d(TAG, "onResponse: " + scheduleModels);
 
                 dataRepository.insertSchedules(scheduleModels);
                 netDataCallback.BiliCallback();

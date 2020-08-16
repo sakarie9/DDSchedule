@@ -55,7 +55,7 @@ public class ScheduleSyncWorker extends Worker implements MainRequest.NetDataCal
             super.handleMessage(msg);
             if (msg.what==1){
                 List<ScheduleModel> tmpSchedules = (List<ScheduleModel>)msg.obj;
-                //Log.d("TAG", "handleMessage: "+(tmpSchedules).toString());
+                Log.d("TAG", "handleMessage: "+(tmpSchedules).toString());
                 AppDataBase.databaseWriteExecutor.execute(() -> {
                     AppDataBase.getDatabase(appContext).scheduleDao().insertAll(tmpSchedules);
                     Log.d("TAG", "ScheduleWorker: Sync Complete");

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +42,7 @@ public class GroupViewFragment extends Fragment {
 
     GroupViewAdapter mGroupViewAdapter;
 
-    List<GroupModel> mGroups = new ArrayList<>();
+    public static List<GroupModel> mGroups = new ArrayList<>();
 
     //Room Stuff
     private GroupViewModel mGroupViewModel;

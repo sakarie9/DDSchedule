@@ -1,13 +1,21 @@
 package com.example.ddschedule;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -40,10 +48,30 @@ public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader,
     protected void convert(@NotNull BaseViewHolder helper, ScheduleHeader sh) {
         ScheduleModel s = (ScheduleModel) sh.getObject();
         DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.HIGH);
         Glide.with(mContext)
                 .load(s.getThumbnail_url())
+                .error(R.drawable.no_thumbnail)
+                .fallback(R.drawable.no_thumbnail)
+                .apply(options)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
+//                .listener(new RequestListener<Drawable>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        //helper.getView(R.id.thumbnail).setVisibility(View.GONE);
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                        helper.getView(R.id.thumbnail).setVisibility(View.VISIBLE);
+//                        return false;
+//                    }
+//                })
                 .into((ImageView) helper.getView(R.id.thumbnail));
         helper.setText(R.id.groups_name, s.getGroups_name());
         String dateStr = DateUtil.getDateToString(

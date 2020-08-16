@@ -27,6 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ddschedule.GroupViewFragment.mGroups;
+
 
 public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolder> implements Filterable {
 
@@ -92,8 +94,8 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 List<GroupModel> list = (List<GroupModel>) results.values;
                 setDiffNewData(list);
+                mGroups = list;
             }
         };
     }
-
 }
