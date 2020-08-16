@@ -12,19 +12,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.SearchView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.ddschedule.model.GroupModel;
-import com.example.ddschedule.util.GroupSelectUtil;
-import com.example.ddschedule.util.ListDataUtil;
-import com.example.ddschedule.util.SharedPreferencesUtil;
+import com.example.ddschedule.util.DiffCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,10 @@ public class GroupViewFragment extends Fragment {
 
     List<GroupModel> mGroups = new ArrayList<>();
 
-    ListDataUtil listDataUtil;
-
     //Room Stuff
     private GroupViewModel mGroupViewModel;
+
+    DiffCallback diffCallback = new DiffCallback();
 
 
     /**
@@ -102,6 +102,7 @@ public class GroupViewFragment extends Fragment {
             }
 
             mGroupViewAdapter = new GroupViewAdapter(context, mGroups);
+            mGroupViewAdapter.setDiffCallback(diffCallback);
             recyclerView.setAdapter(mGroupViewAdapter);
 
             //Room
@@ -153,5 +154,24 @@ public class GroupViewFragment extends Fragment {
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu_group_select, menu);
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.toolbar_search).getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mGroupViewAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

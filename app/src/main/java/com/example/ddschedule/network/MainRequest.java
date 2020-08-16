@@ -5,6 +5,8 @@ import android.content.Context;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.example.ddschedule.network.BiliRequest.bili_urls;
+
 public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetDataCallback {
 
     Boolean YTB_OK = false;
@@ -18,8 +20,10 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
         YTBRequest req_ytb = new YTBRequest(groups, context);
         req_ytb.postData(this);
         BiliRequest req_bili = new BiliRequest(context);
-        req_bili.getData(this);
-        netDataCallback.NetCallback();
+        bili_urls.forEach((k,v)->{
+            req_bili.getData(k, v, this);
+            netDataCallback.NetCallback();
+        });
     }
 
     public interface NetDataCallback {

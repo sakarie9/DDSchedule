@@ -51,7 +51,8 @@ public abstract class AppDataBase extends RoomDatabase {
                                             e.printStackTrace();
                                         }
                                         database.groupDao().insertAll(groups);
-
+                                        //插入预置的Bilibili Groups数据
+                                        database.groupDao().insertAll(generateBiliGroups());
                                     });
                                 }
                             })
@@ -61,6 +62,38 @@ public abstract class AppDataBase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+
+    private static List<GroupModel> generateBiliGroups(){
+        GroupModel g_holo = new GroupModel(
+                "Hololive_Bilibili",
+                "Hololive_Bilibili",
+                "",
+                "",
+                "https://i0.hdslb.com/bfs/face/52f316ed4b89f48f3fea7cc165585c04c32f32df.jpg",
+                "");
+
+        GroupModel g_niji = new GroupModel(
+                "Nijisanji_Bilibili",
+                "Nijisanji_Bilibili",
+                "",
+                "",
+                "https://i1.hdslb.com/bfs/face/ec24bb376f1448219295eb80db2a537b0c4d87bd.jpg",
+                "");
+
+        GroupModel g_other = new GroupModel(
+                "Other_Bilibili",
+                "Other_Bilibili",
+                "",
+                "",
+                "",
+                "");
+
+        List<GroupModel> groupModels = new ArrayList<>();
+        groupModels.add(g_holo);
+        groupModels.add(g_niji);
+        groupModels.add(g_other);
+        return groupModels;
     }
 
 }

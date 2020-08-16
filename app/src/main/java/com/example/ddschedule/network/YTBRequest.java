@@ -1,14 +1,10 @@
 package com.example.ddschedule.network;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
 
 import com.example.ddschedule.DataRepository;
 import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.util.DateUtil;
-import com.example.ddschedule.util.ListDataUtil;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;

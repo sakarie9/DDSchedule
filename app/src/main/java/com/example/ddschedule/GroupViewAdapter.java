@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,15 +20,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.example.ddschedule.model.GroupModel;
+import com.example.ddschedule.util.DiffCallback;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolder> {
+public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolder> implements Filterable {
 
-    private final List<GroupModel> mValues;
+    private List<GroupModel> mValues;
+    private List<GroupModel> mFilterList = new ArrayList<>();
     private Context mContext;
 
     public GroupViewAdapter(Context context,  List<GroupModel> items) {
@@ -53,6 +58,42 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
 
         helper.setText(R.id.group_name, item.getName());
         ((CheckBox)helper.getView(R.id.group_checkbox)).setChecked(item.isSelected());
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    //没有过滤的内容，则使用源数据
+                    mFilterList = mValues;
+                } else {
+                    List<GroupModel> filteredList = new ArrayList<>();
+                    for (GroupModel gm : mValues) {
+                        //这里根据需求，添加匹配规则
+                        if ((gm.getName().toLowerCase()).contains((charString.toLowerCase()))) {
+                            filteredList.add(gm);
+                        } else if ((gm.getGroup_id().toLowerCase()).contains((charString.toLowerCase()))){
+                            filteredList.add(gm);
+                        }
+                    }
+
+                    mFilterList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilterList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                List<GroupModel> list = (List<GroupModel>) results.values;
+                setDiffNewData(list);
+            }
+        };
     }
 
 }

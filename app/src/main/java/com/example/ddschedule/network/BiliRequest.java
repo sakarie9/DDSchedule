@@ -15,7 +15,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.Call;
@@ -29,6 +32,12 @@ import static android.content.ContentValues.TAG;
 
 public class BiliRequest {
 
+    public static Map<String, String> bili_urls = new HashMap<String, String>(){{
+        put("Hololive_Bilibili", "https://api.ihateani.me/live");
+        put("Nijisanji_Bilibili", "https://api.ihateani.me/nijisanji/live");
+        put("Other_Bilibili", "https://api.ihateani.me/other/upcoming");
+    }};
+
     private Context context;
     private DataRepository dataRepository;
 
@@ -40,10 +49,10 @@ public class BiliRequest {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 
-    public void getData(final BiliRequest.NetDataCallback netDataCallback){
+    public void getData(String groupName, String url, final BiliRequest.NetDataCallback netDataCallback){
         OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
         Request request = new Request.Builder()//创建Request 对象。
-                .url("https://api.ihateani.me/live")
+                .url(url)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -55,18 +64,27 @@ public class BiliRequest {
                 try {
                     jsonObject = new JSONObject(str);
                     liveArray = jsonObject.getJSONArray("live");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
                     upcomingArray = jsonObject.getJSONArray("upcoming");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 Gson gson = new Gson();
-                List<BiliRequest.LiveClass> lives = gson.fromJson(liveArray.toString(), new TypeToken<List<BiliRequest.LiveClass>>(){}.getType());
-                List<BiliRequest.LiveClass> upcomings = gson.fromJson(upcomingArray.toString(), new TypeToken<List<BiliRequest.LiveClass>>(){}.getType());
                 List<BiliRequest.LiveClass> biliSchedules = new ArrayList<>();
-                biliSchedules.addAll(lives);
-                biliSchedules.addAll(upcomings);
-                List<ScheduleModel> scheduleModels = scheduleConvert(biliSchedules);
+                if (liveArray != null){
+                    List<BiliRequest.LiveClass> lives = gson.fromJson(liveArray.toString(), new TypeToken<List<BiliRequest.LiveClass>>(){}.getType());
+                    biliSchedules.addAll(lives);
+                }
+                if (upcomingArray != null){
+                    List<BiliRequest.LiveClass> upcomings = gson.fromJson(upcomingArray.toString(), new TypeToken<List<BiliRequest.LiveClass>>(){}.getType());
+                    biliSchedules.addAll(upcomings);
+                }
+
+                List<ScheduleModel> scheduleModels = scheduleConvert(groupName, biliSchedules);
 
                 Log.d(TAG, "onResponse: " + scheduleModels);
 
@@ -96,22 +114,21 @@ public class BiliRequest {
         public String thumbnail;
     }
 
-    // TODO: Hard coded live start time to UTC+8
-    List<ScheduleModel> scheduleConvert(List<BiliRequest.LiveClass> bss) {
+    List<ScheduleModel> scheduleConvert(String groupName, List<BiliRequest.LiveClass> bss) {
         List<ScheduleModel> schedules = new ArrayList<>();
         for (BiliRequest.LiveClass bs : bss) {
             ScheduleModel s = new ScheduleModel(
                     String.valueOf(bs.channel),
                     2,
-                    "Hololive",
-                    "Hololive",
-                    (bs.startTime + 28800) * 1000,
+                    groupName,
+                    groupName,
+                    (bs.startTime) * 1000,
                     "",
                     bs.channel_name,
                     "",
                     bs.thumbnail,
                     bs.title,
-                    String.valueOf(bs.channel)
+                    String.valueOf(bs.room_id)
             );
             schedules.add(s);
         }
