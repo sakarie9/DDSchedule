@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {GroupModel.class, ScheduleModel.class}, version = 2, exportSchema = false)
+@Database(entities = {GroupModel.class, ScheduleModel.class}, version = 2)
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract GroupDao groupDao();
