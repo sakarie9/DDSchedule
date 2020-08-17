@@ -54,6 +54,7 @@ public class ScheduleViewAdapter extends BaseSectionQuickAdapter<ScheduleHeader,
                 .priority(Priority.HIGH);
         Glide.with(mContext)
                 .load(s.getThumbnail_url())
+                .placeholder(R.drawable.no_thumbnail)
                 .error(R.drawable.no_thumbnail)
                 .fallback(R.drawable.no_thumbnail)
                 .apply(options)
