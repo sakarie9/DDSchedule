@@ -21,6 +21,7 @@ public class GroupSelectActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        getSupportActionBar().setTitle("Select Groups");
 
         FrameLayout frameLayout = findViewById(R.id.content_fragment);
         frameLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

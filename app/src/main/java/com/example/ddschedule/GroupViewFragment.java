@@ -161,6 +161,7 @@ public class GroupViewFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu_group_select, menu);
         SearchView mSearchView = (SearchView) menu.findItem(R.id.toolbar_search).getActionView();
+        mSearchView.setMaxWidth(500);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
