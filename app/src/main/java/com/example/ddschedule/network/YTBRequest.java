@@ -1,6 +1,7 @@
 package com.example.ddschedule.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.ddschedule.DataRepository;
 import com.example.ddschedule.model.ScheduleModel;
@@ -48,6 +49,7 @@ public class YTBRequest {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String ss = Objects.requireNonNull(response.body()).string();
+                //Log.d("TAG", "ytbResponse: "+ss);
                 Schedules schedules = new Gson().fromJson(ss, Schedules.class);
                 dataRepository.insertSchedules(schedules.getSchedules());
                 netDataCallback.YTBCallback();

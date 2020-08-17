@@ -2,6 +2,8 @@ package com.example.ddschedule.network;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import static com.example.ddschedule.network.BiliRequest.bili_urls;
 public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetDataCallback {
 
     Boolean YTB_OK = false;
-    Boolean Bili_OK = false;
+    List<Boolean> Bili_OK = new ArrayList<>();
     int YTB_code;
     int Bili_code;
     String YTB_Str;
@@ -22,8 +24,13 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
         BiliRequest req_bili = new BiliRequest(context);
         bili_urls.forEach((k,v)->{
             req_bili.getData(k, v, this);
-            netDataCallback.NetCallback();
         });
+        while(true){
+            if (Bili_OK.size() == 3 && YTB_OK) {
+                netDataCallback.NetCallback();
+                break;
+            }
+        }
     }
 
     public interface NetDataCallback {
@@ -33,7 +40,7 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
 
     @Override
     public void BiliCallback() {
-        Bili_OK = true;
+        Bili_OK.add(true);
     }
 
     @Override

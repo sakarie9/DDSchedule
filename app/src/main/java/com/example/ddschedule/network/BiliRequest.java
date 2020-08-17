@@ -58,6 +58,7 @@ public class BiliRequest {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String str = Objects.requireNonNull(response.body()).string();
+                //Log.d("TAG", "biliResponse: "+str);
                 JSONObject jsonObject = null;
                 JSONArray liveArray = null;
                 JSONArray upcomingArray = null;
@@ -68,6 +69,7 @@ public class BiliRequest {
                     e.printStackTrace();
                 }
                 try {
+                    jsonObject = new JSONObject(str);
                     upcomingArray = jsonObject.getJSONArray("upcoming");
                 } catch (JSONException e) {
                     e.printStackTrace();
