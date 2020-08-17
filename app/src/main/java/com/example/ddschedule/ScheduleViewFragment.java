@@ -170,7 +170,7 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
     }
 
     @Override
-    public void NetErr(int code1,String s1, int code2,String s2) {
+    public void NetErr(int code,String s) {
 
     }
 
