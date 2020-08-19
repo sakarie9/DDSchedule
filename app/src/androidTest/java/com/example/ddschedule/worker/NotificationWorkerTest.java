@@ -39,7 +39,7 @@ public class NotificationWorkerTest {
                         mExecutor)
                         .build();
 
-        ListenableWorker.Result result = worker.doWork();
+        ListenableWorker.Result result;
         result = worker.doWork();
         assertThat(result, is(ListenableWorker.Result.success()));
     }
