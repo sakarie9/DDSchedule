@@ -26,7 +26,9 @@ Vtuber直播日程表APP（Android）
 
 ## 截图
 
-![image](images/Schedules.jpg)![image](images/Groups.jpg)
+<center class="half">
+    <img src="images/Schedules.jpg" width="300"/><img src="images/Groups.jpg" width="300"/>
+</center>
 
 ## 数据源
 
