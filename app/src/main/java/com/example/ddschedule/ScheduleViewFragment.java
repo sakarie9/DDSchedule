@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.network.BiliRequest;
 import com.example.ddschedule.network.MainRequest;
 import com.example.ddschedule.network.YTBRequest;
+import com.example.ddschedule.setting.SettingsActivity;
 import com.example.ddschedule.util.HeaderUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -171,14 +173,15 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
 
     @Override
     public void NetErr(int code,String s) {
+        Log.d("TAG", "NetErr: " +code + s);
 
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.toolbar_refresh) {
-            requestData(mSelectedGroupIDs);
-            //Toast.makeText(getContext(), "Refresh Complete", Toast.LENGTH_SHORT).show();
+        if (item.getItemId() == R.id.toolbar_settings) {
+            Intent intent = new Intent(getContext(), SettingsActivity.class);
+            getContext().startActivity(intent);
         } else if (item.getItemId() == R.id.toolbar_edit) {
             Intent intent = new Intent(getContext(),GroupSelectActivity.class);
             getContext().startActivity(intent);

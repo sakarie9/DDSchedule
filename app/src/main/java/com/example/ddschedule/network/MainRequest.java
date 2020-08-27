@@ -1,6 +1,7 @@
 package com.example.ddschedule.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +42,11 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
         void NetErr(int code1, String s1);
     }
 
+    // TODO: Request Callback Rewrite
     @Override
     public void BiliCallback() {
         Bili_OK.add(true);
+        Log.d("TAG", "BiliCallback: OK");
         if (Bili_OK.size() == 3 && YTB_OK){
             netDataCallback.NetCallback();
         }
@@ -54,11 +57,13 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
         Bili_code = code;
         Bili_Str = s;
         netDataCallback.NetErr(code, s);
+        Bili_OK.add(false);
     }
 
     @Override
     public void YTBCallback() {
         YTB_OK = true;
+        Log.d("TAG", "YTBCallback: OK");
         if (Bili_OK.size() == 3){
             netDataCallback.NetCallback();
         }

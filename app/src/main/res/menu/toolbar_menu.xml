@@ -7,8 +7,8 @@
         android:title="修改"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/toolbar_refresh"
-        android:icon="@drawable/ic_baseline_refresh_24"
-        android:title="刷新"
+        android:id="@+id/toolbar_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="设置"
         app:showAsAction="ifRoom" />
 </menu>
