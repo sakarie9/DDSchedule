@@ -1,5 +1,6 @@
 package com.example.ddschedule;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,8 +20,10 @@ public class GroupSelectActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        ActionBar ab = getSupportActionBar();
+
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
         getSupportActionBar().setTitle("Select Groups");
 
         FrameLayout frameLayout = findViewById(R.id.content_fragment);
