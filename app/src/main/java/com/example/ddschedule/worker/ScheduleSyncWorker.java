@@ -68,6 +68,8 @@ public class ScheduleSyncWorker extends ListenableWorker implements MainRequest.
             super.handleMessage(msg);
             if (msg.what==1){
                 result.set(Result.success());
+            } else if (msg.what==2){
+                result.set(Result.failure());
             }
         }
     };
@@ -81,6 +83,8 @@ public class ScheduleSyncWorker extends ListenableWorker implements MainRequest.
 
     @Override
     public void NetErr(int code, String s) {
-
+        Message msg = Message.obtain();
+        msg.what=2;
+        mHandler.sendMessage(msg);
     }
 }
