@@ -3,6 +3,8 @@ package com.example.ddschedule.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.ddschedule.util.GroupSelectUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -18,17 +20,28 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
     int Bili_code;
     String YTB_Str;
     String Bili_Str;
+    List<String> ytbGroups;
+    List<String> biliGroups;
 
     MainRequest.NetDataCallback netDataCallback;
 
     public MainRequest(List<String> groups, Context context, final MainRequest.NetDataCallback netDataCallback) {
         this.netDataCallback = netDataCallback;
-        YTBRequest req_ytb = new YTBRequest(groups, context);
+
+        GroupSelectUtil.GroupSelectClass g = GroupSelectUtil.GroupSelect(groups);
+        ytbGroups = g.ytbGroups;
+        biliGroups = g.biliGroups;
+
+        YTBRequest req_ytb = new YTBRequest(ytbGroups, context);
         req_ytb.postData(this);
+
         BiliRequest req_bili = new BiliRequest(context);
-        bili_urls.forEach((k,v)->{
-            req_bili.getData(k, v, this);
-        });
+        for (String bGroup:biliGroups) {
+            req_bili.getData(bGroup, bili_urls.get(bGroup), this);
+        }
+//        bili_urls.forEach((k,v)->{
+//            req_bili.getData(k, v, this);
+//        });
 //        while(true){
 //            if (Bili_OK.size() == 3 && YTB_OK) {
 //                netDataCallback.NetCallback();
@@ -47,7 +60,7 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
     public void BiliCallback() {
         Bili_OK.add(true);
         Log.d("TAG", "BiliCallback: OK");
-        if (Bili_OK.size() == 3 && YTB_OK){
+        if (Bili_OK.size() == biliGroups.size() && YTB_OK){
             netDataCallback.NetCallback();
         }
     }
@@ -57,14 +70,13 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
         Bili_code = code;
         Bili_Str = s;
         netDataCallback.NetErr(code, s);
-        Bili_OK.add(false);
     }
 
     @Override
     public void YTBCallback() {
         YTB_OK = true;
         Log.d("TAG", "YTBCallback: OK");
-        if (Bili_OK.size() == 3){
+        if (Bili_OK.size() == biliGroups.size()){
             netDataCallback.NetCallback();
         }
     }

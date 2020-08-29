@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -174,7 +175,10 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
     @Override
     public void NetErr(int code,String s) {
         Log.d("TAG", "NetErr: " +code + s);
-
+        Toast.makeText(getContext(), "更新数据失败，请重试！", Toast.LENGTH_SHORT).show();
+        Message msg = Message.obtain();
+        msg.what=1;
+        mHandler.sendMessage(msg);
     }
 
     @Override
