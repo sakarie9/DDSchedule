@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.example.ddschedule"
+        applicationId 'com.sakari.ddschedule'
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
@@ -70,5 +71,8 @@ dependencies {
     // WorkManager
     implementation "androidx.work:work-runtime:2.4.0"
     implementation 'androidx.work:work-testing:2.4.0'
+
+    // Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
 }
