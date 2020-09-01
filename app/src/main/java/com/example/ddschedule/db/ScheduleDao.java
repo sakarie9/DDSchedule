@@ -14,7 +14,7 @@ import java.util.List;
 public interface ScheduleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<ScheduleModel> groups);
+    void insertAll(List<ScheduleModel> schedules);
 
     @Query("DELETE FROM schedule_table")
     void deleteAll();

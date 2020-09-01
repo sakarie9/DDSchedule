@@ -25,13 +25,9 @@ import okhttp3.Response;
 public class YTBRequest {
 
     private List<String> groups;
-    private Context context;
-    private DataRepository dataRepository;
 
-    public YTBRequest(List<String> groups, Context context) {
+    public YTBRequest(List<String> groups) {
         this.groups = groups;
-        this.context = context;
-        dataRepository = new DataRepository(context);
     }
 
     public static final MediaType JSON
@@ -51,8 +47,8 @@ public class YTBRequest {
                 String ss = Objects.requireNonNull(response.body()).string();
                 //Log.d("TAG", "ytbResponse: "+ss);
                 Schedules schedules = new Gson().fromJson(ss, Schedules.class);
-                dataRepository.insertSchedules(schedules.getSchedules());
-                netDataCallback.YTBCallback();
+                //dataRepository.insertSchedules(schedules.getSchedules());
+                netDataCallback.YTBCallback(schedules.getSchedules());
             }
 
             @Override
@@ -78,7 +74,7 @@ public class YTBRequest {
     }
 
     public interface NetDataCallback {
-        void YTBCallback();
+        void YTBCallback(List<ScheduleModel> schedules);
         void YTBErr(int code,String s);
     }
 

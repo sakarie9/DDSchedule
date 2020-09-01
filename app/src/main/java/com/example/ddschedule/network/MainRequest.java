@@ -3,6 +3,9 @@ package com.example.ddschedule.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.ddschedule.DataRepository;
+import com.example.ddschedule.db.AppDataBase;
+import com.example.ddschedule.model.ScheduleModel;
 import com.example.ddschedule.util.GroupSelectUtil;
 
 import java.util.ArrayList;
@@ -24,18 +27,20 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
     List<String> biliGroups;
 
     MainRequest.NetDataCallback netDataCallback;
+    AppDataBase appDataBase;
 
     public MainRequest(List<String> groups, Context context, final MainRequest.NetDataCallback netDataCallback) {
         this.netDataCallback = netDataCallback;
+        appDataBase = AppDataBase.getDatabase(context);
 
         GroupSelectUtil.GroupSelectClass g = GroupSelectUtil.GroupSelect(groups);
         ytbGroups = g.ytbGroups;
         biliGroups = g.biliGroups;
 
-        YTBRequest req_ytb = new YTBRequest(ytbGroups, context);
+        YTBRequest req_ytb = new YTBRequest(ytbGroups);
         req_ytb.postData(this);
 
-        BiliRequest req_bili = new BiliRequest(context);
+        BiliRequest req_bili = new BiliRequest();
         for (String bGroup:biliGroups) {
             req_bili.getData(bGroup, bili_urls.get(bGroup), this);
         }
@@ -57,7 +62,10 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
 
     // TODO: Request Callback Rewrite
     @Override
-    public void BiliCallback() {
+    public void BiliCallback(List<ScheduleModel> schedules) {
+        AppDataBase.databaseWriteExecutor.execute(()->{
+            appDataBase.scheduleDao().insertAll(schedules);
+        });
         Bili_OK.add(true);
         Log.d("TAG", "BiliCallback: OK");
         if (Bili_OK.size() == biliGroups.size() && YTB_OK){
@@ -73,7 +81,10 @@ public class MainRequest implements YTBRequest.NetDataCallback, BiliRequest.NetD
     }
 
     @Override
-    public void YTBCallback() {
+    public void YTBCallback(List<ScheduleModel> schedules) {
+        AppDataBase.databaseWriteExecutor.execute(()->{
+            appDataBase.scheduleDao().insertAll(schedules);
+        });
         YTB_OK = true;
         Log.d("TAG", "YTBCallback: OK");
         if (Bili_OK.size() == biliGroups.size()){

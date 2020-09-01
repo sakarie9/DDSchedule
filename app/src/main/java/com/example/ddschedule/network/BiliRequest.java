@@ -38,12 +38,7 @@ public class BiliRequest {
         put("Other_Bilibili", "https://api.ihateani.me/other/upcoming");
     }};
 
-    private Context context;
-    private DataRepository dataRepository;
-
-    public BiliRequest(Context context) {
-        this.context = context;
-        dataRepository = new DataRepository(context);
+    public BiliRequest() {
     }
 
     public static final MediaType JSON
@@ -90,8 +85,8 @@ public class BiliRequest {
 
                 //Log.d(TAG, "onResponse: " + scheduleModels);
 
-                dataRepository.insertSchedules(scheduleModels);
-                netDataCallback.BiliCallback();
+                //dataRepository.insertSchedules(scheduleModels);
+                netDataCallback.BiliCallback(scheduleModels);
             }
 
             @Override
@@ -102,7 +97,7 @@ public class BiliRequest {
     }
 
     public interface NetDataCallback {
-        void BiliCallback();
+        void BiliCallback(List<ScheduleModel> scheduleModels);
         void BiliErr(int code,String s);
     }
 
