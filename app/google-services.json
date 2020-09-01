@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "702478466891",
+    "firebase_url": "https://ddschedule-e047e.firebaseio.com",
+    "project_id": "ddschedule-e047e",
+    "storage_bucket": "ddschedule-e047e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702478466891:android:e70a2117ee5872555372ce",
+        "android_client_info": {
+          "package_name": "com.sakari.ddschedule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702478466891-3h04d3mtg3t2udi6s6t2dphkien6vnvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT0yaKI9XS9PlQTiwa1a--TNuX2kx4E0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702478466891-3h04d3mtg3t2udi6s6t2dphkien6vnvh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
