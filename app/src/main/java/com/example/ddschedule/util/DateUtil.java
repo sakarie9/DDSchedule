@@ -39,7 +39,7 @@ public class DateUtil {
     }
 
     /**
-     * 时间戳转换成字符窜
+     * 时间戳转换成字符串
      * @param milSecond
      * @param pattern
      * @return
