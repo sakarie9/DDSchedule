@@ -77,29 +77,4 @@ public class ScheduleViewModel extends AndroidViewModel {
     public void insertSchedules(List<ScheduleModel> schedules) {
         mRepository.insertSchedules(schedules);
     }
-
-
-    public void startSyncWork() {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build();
-        PeriodicWorkRequest build = new PeriodicWorkRequest.Builder(
-                ScheduleSyncWorker.class, 30, MINUTES, 5, MINUTES) //每三十分钟同步一次
-                //ScheduleSyncWorker.class, 30, MINUTES)
-                .setConstraints(constraints)
-                .build();
-        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_SYNC_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, build);
-    }
-
-    public void startWorkNow() {
-        mWorkManager.enqueue(OneTimeWorkRequest.from(ScheduleSyncWorker.class));
-    }
-
-    public void startNotificationWork() {
-        PeriodicWorkRequest build = new PeriodicWorkRequest.Builder(
-                NotificationWorker.class, 15, MINUTES, 5, MINUTES) //每十五分钟同步一次
-                //NotificationWorker.class, 15, MINUTES)
-                .build();
-        mWorkManager.enqueueUniquePeriodicWork(SCHEDULE_NOTIFICATION_WORK_NAME, ExistingPeriodicWorkPolicy.REPLACE, build);
-    }
 }

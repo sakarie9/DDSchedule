@@ -2,6 +2,13 @@
     <string name="app_name">DDSchedule</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Settings Preferences -->
+    <string name="settings_header">Settings</string>
+    <string name="settings_notification">Enable notifications</string>
+    <string name="settings_notification_summary">Send notifications before live start</string>
+    <string name="settings_sync">Enable auto sync</string>
+    <string name="settings_sync_summary">Recommend if notifications is on</string>
+
     <!-- Info Preferences -->
     <string name="info_header">Info</string>
     <string name="info_title">Github</string>

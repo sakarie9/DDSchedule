@@ -2,12 +2,14 @@ package com.sakari.ddschedule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -32,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A fragment representing a list of Items.
@@ -135,15 +138,10 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
             });
         }
 
-        // 启动Work
-        mScheduleViewModel.startSyncWork();
-        mScheduleViewModel.startNotificationWork();
-
         return view;
     }
+
     private void requestData(List<String> groups) {
-        //ListDataUtil listDataUtil = new ListDataUtil(getContext());
-        //NetworkRequest http=new NetworkRequest(listDataUtil.getDataList());
         MainRequest req = new MainRequest(groups, getContext(), this);
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -175,15 +173,4 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Boolean isRefresh = (Boolean) SharedPreferencesUtil.getParam(getContext(), "group_refresh", false);
-//        Log.d("TAG", "onResume: "+isRefresh);
-//        if (isRefresh) {
-//            requestData();
-//            SharedPreferencesUtil.setParam(getContext(), "group_refresh", false);
-//        }
-//    }
 }
