@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DDSchedule</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="info_header">关于</string>
+    <string name="info_title">Github</string>
+    <string name="menu_edit">修改</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_save">保存</string>
+    <string name="settings_header">设置</string>
+    <string name="settings_pictures">显示图片</string>
+    <string name="settings_pictures_summary">如果图片不能正常加载则关闭此设置\n包括缩略图及头像</string>
+    <string name="workers_header">后台</string>
+    <string name="workers_notification">开启后台通知</string>
+    <string name="workers_notification_summary">直播开始前发送通知</string>
+    <string name="workers_sync">开启自动同步</string>
+    <string name="workers_sync_summary">后台通知开启时推荐开启</string>
+</resources>
