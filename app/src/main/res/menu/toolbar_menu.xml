@@ -4,11 +4,11 @@
     <item
         android:id="@+id/toolbar_edit"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:title="修改"
+        android:title="@string/menu_edit"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/toolbar_settings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="设置"
+        android:title="@string/menu_settings"
         app:showAsAction="ifRoom" />
 </menu>
