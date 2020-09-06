@@ -1,6 +1,7 @@
 package com.sakari.ddschedule;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -13,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.sakari.ddschedule.model.GroupModel;
+import com.sakari.ddschedule.util.SettingsUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,28 +29,34 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
     private List<GroupModel> mValues;
     private List<GroupModel> mFilterList = new ArrayList<>();
     private Context mContext;
+    private Boolean isPicturesEnabled;
 
     public GroupViewAdapter(Context context,  List<GroupModel> items) {
         super(R.layout.fragment_group_view, items);
         mContext = context;
         mValues = items;
+        isPicturesEnabled = SettingsUtil.getBoolean(context,"switch_pictures",true);
     }
 
     @Override
     protected void convert(@NotNull BaseViewHolder helper, GroupModel item) {
         String url = item.getTwitter_thumbnail_url();
-        RequestOptions options = new RequestOptions()
-                .centerCrop()
-                .placeholder(R.drawable.default_avatar)
-                .error(R.drawable.default_avatar)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH);
+        if(isPicturesEnabled) {
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.drawable.default_avatar)
+                    .error(R.drawable.default_avatar)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH);
+            Glide.with(mContext)
+                    .load(url)
+                    .apply(options)
+                    .circleCrop()
+                    .into((ImageView) helper.getView(R.id.group_avatar));
+        } else {
+            helper.getView(R.id.group_avatar).setVisibility(View.GONE);
+        }
 
-        Glide.with(mContext)
-                .load(url)
-                .apply(options)
-                .circleCrop()
-                .into((ImageView) helper.getView(R.id.group_avatar));
 
         helper.setText(R.id.group_name, item.getName());
         ((CheckBox)helper.getView(R.id.group_checkbox)).setChecked(item.isSelected());

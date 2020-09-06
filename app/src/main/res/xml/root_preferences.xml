@@ -3,14 +3,21 @@
     <PreferenceCategory app:title="@string/settings_header">
         <SwitchPreference
             android:defaultValue="true"
+            android:key="switch_pictures"
+            android:title="@string/settings_pictures"
+            android:summary="@string/settings_pictures_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/workers_header">
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="switch_notifications"
-            android:title="@string/settings_notification"
-            android:summary="@string/settings_notification_summary"/>
+            android:title="@string/workers_notification"
+            android:summary="@string/workers_notification_summary"/>
         <SwitchPreference
             android:defaultValue="true"
             android:key="switch_sync"
-            android:title="@string/settings_sync"
-            android:summary="@string/settings_sync_summary"/>
+            android:title="@string/workers_sync"
+            android:summary="@string/workers_sync_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/info_header">

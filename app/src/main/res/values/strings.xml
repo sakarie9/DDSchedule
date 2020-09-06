@@ -4,10 +4,15 @@
 
     <!-- Settings Preferences -->
     <string name="settings_header">Settings</string>
-    <string name="settings_notification">Enable notifications</string>
-    <string name="settings_notification_summary">Send notifications before live start</string>
-    <string name="settings_sync">Enable auto sync</string>
-    <string name="settings_sync_summary">Recommend if notifications is on</string>
+    <string name="settings_pictures">Display pictures</string>
+    <string name="settings_pictures_summary">Disable if pictures can not be load\nIncluding thumbnails and group avatars</string>
+
+    <!-- Workers Preferences -->
+    <string name="workers_header">Workers</string>
+    <string name="workers_notification">Enable notifications</string>
+    <string name="workers_notification_summary">Send notifications before live start</string>
+    <string name="workers_sync">Enable auto sync</string>
+    <string name="workers_sync_summary">Recommend if notifications is on</string>
 
     <!-- Info Preferences -->
     <string name="info_header">Info</string>
