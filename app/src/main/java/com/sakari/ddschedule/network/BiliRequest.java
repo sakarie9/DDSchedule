@@ -111,7 +111,7 @@ public class BiliRequest {
                     (bs.startTime) * 1000,
                     "",
                     bs.channel_name,
-                    "",
+                    null,
                     bs.thumbnail,
                     bs.title,
                     String.valueOf(bs.room_id)

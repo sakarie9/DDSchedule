@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.sakari.ddschedule.model.GroupModel;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {GroupModel.class, ScheduleModel.class}, version = 2)
+@Database(entities = {GroupModel.class, ScheduleModel.class}, version = 3)
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract GroupDao groupDao();
@@ -56,6 +57,24 @@ public abstract class AppDataBase extends RoomDatabase {
                                     });
                                 }
                             })
+                            .addCallback(new Callback() {
+                                @Override
+                                public void onDestructiveMigration(@NonNull SupportSQLiteDatabase db) {
+                                    super.onDestructiveMigration(db);
+                                    databaseWriteExecutor.execute(()->{
+                                        AppDataBase database = AppDataBase.getDatabase(context);
+                                        List<GroupModel> groups = new ArrayList<>();
+                                        try {
+                                            groups = JsonLocalUtil.getGroups(context);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        database.groupDao().insertAll(groups);
+                                        //插入预置的Bilibili Groups数据
+                                        database.groupDao().insertAll(generateBiliGroups());
+                                    });
+                                }
+                            })
                             .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
                             .build();
@@ -72,7 +91,8 @@ public abstract class AppDataBase extends RoomDatabase {
                 "",
                 "",
                 "https://i0.hdslb.com/bfs/face/52f316ed4b89f48f3fea7cc165585c04c32f32df.jpg",
-                "");
+                0,
+                false);
 
         GroupModel g_niji = new GroupModel(
                 "Nijisanji_Bilibili",
@@ -80,7 +100,8 @@ public abstract class AppDataBase extends RoomDatabase {
                 "",
                 "",
                 "https://i1.hdslb.com/bfs/face/ec24bb376f1448219295eb80db2a537b0c4d87bd.jpg",
-                "");
+                0,
+                false);
 
         GroupModel g_other = new GroupModel(
                 "Other_Bilibili",
@@ -88,7 +109,8 @@ public abstract class AppDataBase extends RoomDatabase {
                 "",
                 "",
                 "",
-                "");
+                0,
+                false);
 
         List<GroupModel> groupModels = new ArrayList<>();
         groupModels.add(g_holo);
