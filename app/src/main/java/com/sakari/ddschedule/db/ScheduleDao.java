@@ -33,6 +33,6 @@ public interface ScheduleDao {
             "WHERE groups IN (:groups) " +
             "AND ((scheduled_start_time - :now_time) >= 0) " +
             "AND ((scheduled_start_time - :now_time) <= :interval_time) " +
-            "ORDER BY scheduled_start_time ASC")
+            "ORDER BY scheduled_start_time,streamer_name ASC")
     List<ScheduleModel> getNotificationSchedules(List<String> groups, long now_time, long interval_time);
 }
