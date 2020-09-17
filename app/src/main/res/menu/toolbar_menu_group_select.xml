@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/menu_search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/toolbar_save"
         android:icon="@drawable/ic_baseline_save_24"
