@@ -42,7 +42,7 @@ public class DataRepository {
         if (groups == null || groups.size() == 0)
             mSchedules = mScheduleDao.getAllSchedules(dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());
         else
-            mSchedules = mScheduleDao.getSchedules(groups, dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());
+            mSchedules = mScheduleDao.getSchedules(dateUtil.getOffsetTimestampBefore(), dateUtil.getOffsetTimestampAfter());
         return mSchedules;
     }
 

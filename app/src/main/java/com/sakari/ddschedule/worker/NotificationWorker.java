@@ -30,7 +30,7 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        List<ScheduleModel> schedules = getSchedules(getGroupIDs());
+        List<ScheduleModel> schedules = getSchedules();
         NotificationUtil notificationUtil = new NotificationUtil(appContext);
         notificationUtil.setupChannel();
         notificationUtil.showNotification(schedules);
@@ -38,18 +38,11 @@ public class NotificationWorker extends Worker {
         return Result.success();
     }
 
-    private List<String> getGroupIDs() {
-        List<String> tmpGroups = AppDataBase.getDatabase(appContext).groupDao().getSelectedGroupIDsNow();
-        //Log.d("TAG", "getGroupIDs: "+tmpGroups.toString());
-        return tmpGroups;
-    }
-
-    private List<ScheduleModel> getSchedules(List<String> groups) {
+    private List<ScheduleModel> getSchedules() {
         List<ScheduleModel> schedules = AppDataBase.getDatabase(appContext).scheduleDao().
-                getNotificationSchedules(groups, System.currentTimeMillis(), INTERVAL_TIME);
+                getNotificationSchedules(System.currentTimeMillis(), INTERVAL_TIME);
 //        Log.d("TAG", "getSchedules: "+ DateUtil.getDateToString(System.currentTimeMillis(), "MM-dd HH:mm")+" "+
 //                DateUtil.getDateToString(System.currentTimeMillis()+INTERVAL_TIME, "MM-dd HH:mm"));
-//        Log.d("TAG", "getSchedules: "+schedules.toString());
         return schedules;
     }
 }
