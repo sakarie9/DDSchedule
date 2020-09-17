@@ -63,6 +63,8 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
                 //mScheduleViewAdapter.setList(mList);
                 //mScheduleViewModel.insertSchedules((List<ScheduleModel>)msg.obj);
                 swipeRefreshLayout.setRefreshing(false);
+            } else if (msg.what==2){
+                Toast.makeText(getContext(), "更新数据失败，请重试！", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -156,9 +158,8 @@ public class ScheduleViewFragment extends Fragment implements MainRequest.NetDat
     @Override
     public void NetErr(int code,String s) {
         Log.d("TAG", "NetErr: " +code + s);
-        Toast.makeText(getContext(), "更新数据失败，请重试！", Toast.LENGTH_SHORT).show();
         Message msg = Message.obtain();
-        msg.what=1;
+        msg.what=2;
         mHandler.sendMessage(msg);
     }
 
