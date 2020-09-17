@@ -16,4 +16,5 @@
     <string name="workers_notification_summary">直播开始前发送通知</string>
     <string name="workers_sync">开启自动同步</string>
     <string name="workers_sync_summary">后台通知开启时推荐开启</string>
+    <string name="group_select_activity">选择所属</string>
 </resources>

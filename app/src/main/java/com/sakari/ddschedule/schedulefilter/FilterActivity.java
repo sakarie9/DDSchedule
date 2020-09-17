@@ -1,16 +1,17 @@
-package com.sakari.ddschedule;
+package com.sakari.ddschedule.schedulefilter;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
+import com.sakari.ddschedule.R;
 
-public class GroupSelectActivity extends AppCompatActivity {
-
+public class FilterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class GroupSelectActivity extends AppCompatActivity {
 
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setTitle(R.string.group_select_activity);
+        getSupportActionBar().setTitle("Allow/Deny List");
 
         FrameLayout frameLayout = findViewById(R.id.content_fragment);
         frameLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -31,7 +32,7 @@ public class GroupSelectActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            GroupViewFragment fragment = new GroupViewFragment();
+            FilterFragment fragment = new FilterFragment();
             transaction.replace(R.id.content_fragment, fragment);
             transaction.commit();
         }

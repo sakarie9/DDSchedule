@@ -25,6 +25,9 @@ public interface GroupDao {
     @Query("SELECT * FROM group_table ORDER BY isSelected DESC ,name ASC")
     LiveData<List<GroupModel>> getGroups();
 
+    @Query("SELECT * FROM group_table WHERE isSelected = 1 ORDER BY isSelected DESC ,name ASC")
+    LiveData<List<GroupModel>> getSelectedGroups();
+
     @Query("SELECT group_id FROM group_table WHERE isSelected = 1")
     LiveData<List<String>> getSelectedGroupIDs();
 

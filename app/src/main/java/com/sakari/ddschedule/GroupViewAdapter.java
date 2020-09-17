@@ -30,12 +30,21 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
     private List<GroupModel> mFilterList = new ArrayList<>();
     private Context mContext;
     private Boolean isPicturesEnabled;
+    private Boolean isFilter = false;
 
     public GroupViewAdapter(Context context,  List<GroupModel> items) {
         super(R.layout.fragment_group_view, items);
         mContext = context;
         mValues = items;
         isPicturesEnabled = SettingsUtil.getBoolean(context,"switch_pictures",true);
+    }
+    //
+    public GroupViewAdapter(Context context,  List<GroupModel> items, Boolean isFilter) {
+        super(R.layout.fragment_group_view, items);
+        mContext = context;
+        mValues = items;
+        isPicturesEnabled = SettingsUtil.getBoolean(context,"switch_pictures",true);
+        this.isFilter = isFilter;
     }
 
     @Override
@@ -57,6 +66,9 @@ public class GroupViewAdapter extends BaseQuickAdapter<GroupModel, BaseViewHolde
             helper.getView(R.id.group_avatar).setVisibility(View.GONE);
         }
 
+        if(isFilter) {
+            helper.getView(R.id.group_checkbox).setVisibility(View.GONE);
+        }
 
         helper.setText(R.id.group_name, item.getName());
         ((CheckBox)helper.getView(R.id.group_checkbox)).setChecked(item.isSelected());
