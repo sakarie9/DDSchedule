@@ -20,9 +20,17 @@ public interface ScheduleDao {
     void deleteAll();
 
     @Query("SELECT * FROM schedule_table " +
-            "WHERE groups IN (SELECT group_id FROM group_table WHERE isSelected = 1) AND scheduled_start_time BETWEEN :start_timestamp AND :end_timestamp " +
+            "WHERE groups IN (SELECT group_id FROM group_table WHERE isSelected = 1) " +
+            "AND scheduled_start_time BETWEEN :start_timestamp AND :end_timestamp " +
             "ORDER BY scheduled_start_time ASC")
     LiveData<List<ScheduleModel>> getSchedules(long start_timestamp, long end_timestamp);
+
+    @Query("SELECT * FROM schedule_table " +
+            "WHERE groups IN (SELECT group_id FROM group_table WHERE isSelected = 1) " +
+            "AND scheduled_start_time BETWEEN :start_timestamp AND :end_timestamp " +
+            "AND streamer_id NOT IN (SELECT streamer_id FROM liver_table WHERE isBlocked=1) " +
+            "ORDER BY scheduled_start_time ASC")
+    LiveData<List<ScheduleModel>> getSchedules_filter(long start_timestamp, long end_timestamp);
 
     @Query("SELECT * FROM schedule_table " +
             "WHERE scheduled_start_time BETWEEN :start_timestamp AND :end_timestamp " +
@@ -35,4 +43,13 @@ public interface ScheduleDao {
             "AND ((scheduled_start_time - :now_time) <= :interval_time) " +
             "ORDER BY scheduled_start_time,streamer_name ASC")
     List<ScheduleModel> getNotificationSchedules(long now_time, long interval_time);
+
+    @Query("SELECT * FROM schedule_table " +
+            "WHERE groups IN (SELECT group_id FROM group_table WHERE isSelected = 1) " +
+            "AND ((scheduled_start_time - :now_time) >= 0) " +
+            "AND ((scheduled_start_time - :now_time) <= :interval_time) " +
+            "AND streamer_id NOT IN (SELECT streamer_id FROM liver_table WHERE isBlocked=1) " +
+            "ORDER BY scheduled_start_time,streamer_name ASC")
+    List<ScheduleModel> getNotificationSchedules_filter(long now_time, long interval_time);
+
 }

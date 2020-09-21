@@ -10,7 +10,9 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.sakari.ddschedule.model.GroupModel;
+import com.sakari.ddschedule.model.LiverModel;
 import com.sakari.ddschedule.model.ScheduleModel;
+import com.sakari.ddschedule.network.LiverRequest;
 import com.sakari.ddschedule.util.JsonLocalUtil;
 
 import org.json.JSONException;
@@ -20,11 +22,12 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {GroupModel.class, ScheduleModel.class}, version = 3)
+@Database(entities = {GroupModel.class, ScheduleModel.class, LiverModel.class}, version = 4)
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract GroupDao groupDao();
     public abstract ScheduleDao scheduleDao();
+    public abstract LiverDao liverDao();
 
     public static final String DATABASE_NAME = "basic-schedule_database-db";
 

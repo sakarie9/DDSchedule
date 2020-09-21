@@ -12,6 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.sakari.ddschedule.R;
 
 public class FilterActivity extends AppCompatActivity {
+
+    private ActionBar ab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,11 +23,10 @@ public class FilterActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ActionBar ab = getSupportActionBar();
+        ab = getSupportActionBar();
 
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setTitle("Allow/Deny List");
 
         FrameLayout frameLayout = findViewById(R.id.content_fragment);
         frameLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

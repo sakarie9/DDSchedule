@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -49,6 +50,8 @@ public class FilterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group_view_list, container, false);
 
+
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -72,10 +75,22 @@ public class FilterFragment extends Fragment {
 
             // 设置点击事件
             mGroupViewAdapter.setOnItemClickListener((adapter, view1, position) -> {
-
+                String groupId = (mGroups.get(position)).getGroup_id();
+                String groupName = (mGroups.get(position)).getName();
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.content_fragment, FilterSelectFragment.newInstance(groupId)).commit();
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(groupName);
             });
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.filter_activity);
     }
 }

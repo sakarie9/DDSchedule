@@ -12,12 +12,12 @@ data class LiverModel(
     @PrimaryKey
     var streamer_id: String,
     var thumbnail_url: String?,
-    var isSelected: Boolean // 默认白名单
+    var isBlocked: Boolean // 默认黑名单
 ) : Comparator<LiverModel> {
     constructor(): this("","","","",false)
 
     override fun compare(o1: LiverModel, o2: LiverModel): Int {
-        val num = o2.isSelected.compareTo(o1.isSelected)
+        val num = o2.isBlocked.compareTo(o1.isBlocked)
         return if (num == 0) {
             Collator.getInstance(Locale.JAPANESE).compare(o1.name, o2.name)
         } else num

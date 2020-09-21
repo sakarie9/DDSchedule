@@ -2,12 +2,20 @@
     <string name="app_name">DDSchedule</string>
     <string name="title_activity_settings">Settings</string>
     <string name="group_select_activity">Select Group</string>
+    <string name="filter_activity">AllowList Settings</string>
 
-    <!-- AllowList Preferences -->
+    <!-- Filter Preferences -->
+    <string name="filter_header">Filter</string>
+    <string name="filter_switch">Enable Filter</string>
+    <string name="filter_switch_summary">Block any Vtubers you don\'t want to see</string>
+    <string name="filter_settings">Filter Settings</string>
+    <string name="filter_settings_summary">Enable filters first</string>
+    <string name="filter_switch_schedule">Enable Filter for Schedules</string>
+    <string name="filter_switch_notifications">Enable Filter for Notifications</string>
 
     <!-- Settings Preferences -->
     <string name="settings_header">Settings</string>
-    <string name="settings_pictures">Display pictures</string>
+    <string name="settings_pictures">Show pictures</string>
     <string name="settings_pictures_summary">Disable if pictures can not be load\nIncluding thumbnails and group avatars</string>
 
     <!-- Workers Preferences -->
@@ -26,4 +34,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_search">Search</string>
     <string name="menu_save">Save</string>
+    <string name="menu_select_all">Select All</string>
+    <string name="menu_deselect_all">Deselect All</string>
+
 </resources>

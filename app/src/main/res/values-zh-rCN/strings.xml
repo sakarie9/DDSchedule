@@ -17,4 +17,14 @@
     <string name="workers_sync">开启自动同步</string>
     <string name="workers_sync_summary">后台通知开启时推荐开启</string>
     <string name="group_select_activity">选择所属</string>
+    <string name="menu_select_all">全选</string>
+    <string name="menu_deselect_all">全不选</string>
+    <string name="filter_header">过滤</string>
+    <string name="filter_switch">开启过滤</string>
+    <string name="filter_switch_summary">屏蔽掉你不想看到的Vtuber</string>
+    <string name="filter_settings">过滤设置</string>
+    <string name="filter_settings_summary">先开启过滤</string>
+    <string name="filter_switch_schedule">为日程启用过滤器</string>
+    <string name="filter_switch_notifications">为通知启用过滤器</string>
+    <string name="filter_activity">允许名单设置</string>
 </resources>
